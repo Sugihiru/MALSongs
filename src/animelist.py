@@ -28,6 +28,7 @@ class AnimeList():
         animes = list()
         self.parser.feed(self.content)
         for data in self.parser.anime_data:
+            print(data['anime_title'].encode('utf-8'))
             animes.append(Anime.from_dict(data))
         return animes
 

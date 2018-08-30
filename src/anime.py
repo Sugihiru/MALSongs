@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import time
 
 from bs4 import BeautifulSoup
 
@@ -26,28 +27,49 @@ class Anime():
         anime_obj = cls(data_dict['anime_title'],
                         data_dict['anime_id'],
                         data_dict['anime_url'])
-        anime_obj.get_infos_from_anime_page()
         return anime_obj
 
     def get_infos_from_anime_page(self):
         """Get additional informations like openings and endings list
             from the anime's MAL page"""
+        self.songs = list()
         content = html_utils.get_content_from_url(MAL_BASE_URL + self.url)
         parsed_html = BeautifulSoup(content, "lxml")
-        openings_html = parsed_html.body.find('div',
-                                              attrs={'class': 'opnening'})
-        endings_html = parsed_html.body.find('div',
-                                             attrs={'class': 'ending'})
+        while "Too Many Requests" in parsed_html.body.text:
+            print("WARNING: Too many requests. Retrying in 3s...")
+            time.sleep(3)
+            content = html_utils.get_content_from_url(MAL_BASE_URL + self.url)
+            parsed_html = BeautifulSoup(content, "lxml")
 
-        def add_song_to_list(songs_list, songs_html):
-            for song_html in songs_html.find_all('span'):
-                songs_list.append(song_html.text)
-
-        self.openings = list()
-        add_song_to_list(self.openings, openings_html)
-        self.endings = list()
-        add_song_to_list(self.endings, endings_html)
+        for song_class in ['opnening', 'ending']:
+            songs_html = parsed_html.body.find('div',
+                                               attrs={'class': song_class})
+            if not songs_html:
+                print("No {0} for {1}".format(song_class,
+                                              self.anime_name.encode('utf-8')))
+            else:
+                for song_html in songs_html.find_all('span'):
+                    self.songs.append(song_html.text)
 
     def __repr__(self):
         """<MAL ID, anime name>"""
         return "Anime <{0}, {1}>".format(self.mal_id, self.anime_name)
+
+
+def dump_to_csv(output_file, animes):
+    """Dump the informations of animes into an exportable CSV file
+
+    Args:
+        output_file (str): Output file
+        animes (list of Anime): Anime from which to get infos
+    """
+    content = ["Checked,Anime title,Song"]
+    for anime_obj in animes:
+        for song in anime_obj.songs:
+            # Do not use ',' to avoid conflicts with csv
+            song_data = {'title': anime_obj.anime_name.replace(',', ';'),
+                         'songname': song.replace(',', ';')}
+            content.append("FALSE,{title},{songname}".format(**song_data))
+
+    with open(output_file, 'w', encoding='utf-8') as f:
+        f.write('\n'.join(content))
