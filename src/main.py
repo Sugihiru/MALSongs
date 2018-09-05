@@ -36,8 +36,9 @@ def parse_args():
 def main(username=None):
     args = parse_args()
     if not args.username:
-        username = input("Enter MAL username: ")
-    user_animelist = animelist.AnimeList(username)
+        args.username = input("Enter MAL username: ")
+    user_animelist = animelist.AnimeList(args.username,
+                                         xml_animelist=args.xml)
     print("Getting animes from MAL anime list...")
     user_animes = user_animelist.get_list_of_animes()
     print("Animes processed: {0}".format(len(user_animes)))
