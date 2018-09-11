@@ -21,7 +21,8 @@ class AnimeList():
 
     def __init__(self, xml_animelist):
         self.parser = AnimeListXmlParser()
-        self.content = open(xml_animelist, 'r').read()
+        with open(xml_animelist, 'r') as f:
+            self.content = f.read()
 
     def get_list_of_animes(self, include_ptw=False):
         """Returns a list of Anime
