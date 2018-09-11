@@ -20,7 +20,7 @@ You can also strike the results that are checked. To do so, select every data us
 
 # Todo
 - [ ] Maybe try to fix sorting on results like `"Bungako Shoujo" Movie`
-- [ ] Remove non-started animes from default option and add an option to include the non-started animes
+- [x] Remove non-started animes from default option and add an option to include the non-started animes
 - [ ] Remove potential duplicates (on OVAs for example)
 - [ ] Add an option to set songs library directory(/ies ?) and set "Checked" to True if the results are already in the songs library
 - [ ] Add an option to take a previously computed .csv and update it (/!\ try to keep the results sorted)

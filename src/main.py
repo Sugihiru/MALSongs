@@ -15,6 +15,9 @@ def parse_args():
     parser.add_argument("--xml",
                         required=True,
                         help="Get data from XML exported MyAnimeList list")
+    parser.add_argument("--include-ptw",
+                        action="store_true",
+                        help="Include Plan To Watch animes")
     args = parser.parse_args()
 
     return args
@@ -24,7 +27,7 @@ def main(username=None):
     args = parse_args()
     user_animelist = animelist.AnimeList(args.xml)
     print("Getting animes from MAL anime list...")
-    user_animes = user_animelist.get_list_of_animes()
+    user_animes = user_animelist.get_list_of_animes(args.include_ptw)
     print("Animes processed: {0}".format(len(user_animes)))
     anime.dump_to_csv('anisongs.csv', user_animes)
 
