@@ -20,7 +20,7 @@ You can also strike the results that are checked. To do so, select every data us
 
 # Todo
 - [ ] Maybe try to fix sorting on results like `"Bungako Shoujo" Movie`
-- [ ] Try to get the number of the OP/ED
+- [x] Try to get the number of the OP/ED
 - [ ] Try to get the episodes in which the anisong was played
 - [x] Remove non-started animes from default option and add an option to include the non-started animes
 - [ ] Remove potential duplicates (on OVAs for example)
