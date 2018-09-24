@@ -6,6 +6,7 @@ import time
 from bs4 import BeautifulSoup
 
 import html_utils
+from anisong import Anisong
 
 
 MAL_BASE_URL = "https://myanimelist.net"
@@ -49,7 +50,8 @@ class Anime():
                                               self.anime_name.encode('utf-8')))
             else:
                 for song_html in songs_html.find_all('span'):
-                    self.songs.append(song_html.text)
+                    song = Anisong(song_html.text, song_class)
+                    self.songs.append(song)
 
     def __repr__(self):
         """<MAL ID, anime name>"""
@@ -63,13 +65,15 @@ def dump_to_csv(output_file, animes):
         output_file (str): Output file
         animes (list of Anime): Anime from which to get infos
     """
-    content = ["Checked,Anime title,Song"]
+    content = ["Checked,Song number,Song type,Anime title,Song"]
     for anime_obj in animes:
         for song in anime_obj.songs:
-            # Do not use ',' to avoid conflicts with csv
             song_data = {'title': anime_obj.anime_name.replace(',', ';'),
-                         'songname': song.replace(',', ';')}
-            content.append("FALSE,{title},{songname}".format(**song_data))
+                         'song_nb': song.number,
+                         'song_type': song.type,
+                         'songname': song.title}
+            content.append("FALSE,{title},{song_nb}"
+                           ",{song_type},{songname}".format(**song_data))
 
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write('\n'.join(content))
