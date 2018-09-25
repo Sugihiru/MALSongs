@@ -31,13 +31,15 @@ class Anisong():
             anisong_text (str): Anisong text (from MAL anime page)
 
         Returns:
-            int: Number of the song
-                Note: If the song has no number, it is set to 1 by default
+            str: Number of the song
+                Note: If the song has no number, it is set to "1" by default
         """
         if anisong_text.startswith('#') and ':' in anisong_text:
             song_nb = anisong_text.split(':')[0]
             song_nb = song_nb.strip('#')
-            return int(song_nb)
+            if song_nb.isdigit():
+                song_nb = song_nb.zfill(2)
+            return song_nb
         return 1
 
     def get_title(self, anisong_text):

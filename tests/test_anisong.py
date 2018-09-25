@@ -27,13 +27,15 @@ class TestAnisong(unittest.TestCase):
     def test_get_song_number(self):
         song = AnisongEmptyInit('', '')
         songname = '#1: "Answer" by BUMP OF CHICKEN (eps 1-11)'
-        self.assertEqual(song.get_song_number(songname), 1)
+        self.assertEqual(song.get_song_number(songname), "01")
         songname = '#2: "Sayonara Bystander" by YUKI (eps 12-22)'
-        self.assertEqual(song.get_song_number(songname), 2)
+        self.assertEqual(song.get_song_number(songname), "02")
         songname = '#02: "Sayonara Bystander" by YUKI (eps 12-22)'
-        self.assertEqual(song.get_song_number(songname), 2)
+        self.assertEqual(song.get_song_number(songname), "02")
         songname = '#12: "Tenohira" by HERO (eps 138-150)'
-        self.assertEqual(song.get_song_number(songname), 12)
+        self.assertEqual(song.get_song_number(songname), "12")
+        songname = '#R1: "Circle Game" by Galileo Galilei (eps 1-10)'
+        self.assertEqual(song.get_song_number(songname), "R1")
 
     def test_get_title(self):
         song = AnisongEmptyInit('', '')
