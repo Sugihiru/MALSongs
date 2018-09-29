@@ -51,6 +51,9 @@ class TestAnisong(unittest.TestCase):
         song.apparition_eps = 'eps 1-7, 9-12'
         self.assertEqual(song.get_title(songname),
                          '"Gunjou Survival" by Mikako Komatsu')
+        songname = '"Menimeni Manimani" by Nasuno Takamiya (CV: Kyoko Narumi)'
+        self.assertEqual(song.get_title(songname),
+                         songname)
 
     def test_get_apparition_eps(self):
         song = AnisongEmptyInit('', '')

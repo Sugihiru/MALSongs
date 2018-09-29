@@ -60,7 +60,7 @@ class Anisong():
         """
 
         # Clean anisong number
-        if ':' in anisong_text:
+        if anisong_text.startswith('#') and ':' in anisong_text:
             title = anisong_text.split(':', 1)[1]
         else:
             title = anisong_text
