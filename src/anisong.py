@@ -8,13 +8,13 @@ class Anisong():
     """Holds infos about an anime song"""
 
     # Lazy loaded in Anisong.get_re_apparition_eps()
-    re_apparition_eps = None
+    re_used_in_eps = None
 
     def __init__(self, anisong_text, anisong_type):
         self._full_text = anisong_text
         self.type = self.get_anisong_type(anisong_type)
         self.number = self.get_song_number(anisong_text)
-        self.apparition_eps = self.get_apparition_eps(anisong_text)
+        self.used_in_eps = self.get_used_in_eps(anisong_text)
         self.title = self.get_title(anisong_text)
 
     def get_anisong_type(self, anisong_type):
@@ -65,13 +65,13 @@ class Anisong():
         else:
             title = anisong_text
 
-        # Clean episode of apparition of anisong
-        if self.apparition_eps:
-            title = title.replace('({})'.format(self.apparition_eps), '')
+        # Clean "used in episodes" of anisong
+        if self.used_in_eps:
+            title = title.replace('({})'.format(self.used_in_eps), '')
 
         return title.strip()
 
-    def get_apparition_eps(self, anisong_text):
+    def get_used_in_eps(self, anisong_text):
         """Get the episodes where the anisong appeared
 
         Args:
@@ -82,17 +82,17 @@ class Anisong():
                 doesn't have a specific format since MAL doesn't format it.
                 See the tests for concrete examples.
         """
-        re_apparition_eps = self.get_re_apparition_eps()
-        match = re_apparition_eps.search(anisong_text)
+        re_used_in_eps = self.get_re_apparition_eps()
+        match = re_used_in_eps.search(anisong_text)
         if match:
             return match.group(0).strip('()')
         return None
 
     def get_re_apparition_eps(self):
-        """Checks if Anisong.re_apparition_eps is initialized.
+        """Checks if Anisong.re_used_in_eps is initialized.
         If not, initialize it, then return it
         """
-        if not Anisong.re_apparition_eps:
-            Anisong.re_apparition_eps = re.compile(
+        if not Anisong.re_used_in_eps:
+            Anisong.re_used_in_eps = re.compile(
                 r"\([^\(\)]*eps* \d+(-\d+)*.*\)")
-        return Anisong.re_apparition_eps
+        return Anisong.re_used_in_eps

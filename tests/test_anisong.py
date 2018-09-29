@@ -39,32 +39,32 @@ class TestAnisong(unittest.TestCase):
 
     def test_get_title(self):
         song = AnisongEmptyInit('', '')
-        song.apparition_eps = 'eps 1-11'
+        song.used_in_eps = 'eps 1-11'
         songname = '#1: "Answer" by BUMP OF CHICKEN (eps 1-11)'
         self.assertEqual(song.get_title(songname),
                          '"Answer" by BUMP OF CHICKEN')
-        song.apparition_eps = 'ep 2'
+        song.used_in_eps = 'ep 2'
         songname = '"Uzu to Uzu" by NICO Touches the Walls (ep 2)'
         self.assertEqual(song.get_title(songname),
                          '"Uzu to Uzu" by NICO Touches the Walls')
         songname = '#1: "Gunjou Survival" by Mikako Komatsu (eps 1-7, 9-12)'
-        song.apparition_eps = 'eps 1-7, 9-12'
+        song.used_in_eps = 'eps 1-7, 9-12'
         self.assertEqual(song.get_title(songname),
                          '"Gunjou Survival" by Mikako Komatsu')
         songname = '"Menimeni Manimani" by Nasuno Takamiya (CV: Kyoko Narumi)'
         self.assertEqual(song.get_title(songname),
                          songname)
 
-    def test_get_apparition_eps(self):
+    def test_get_used_in_eps(self):
         song = AnisongEmptyInit('', '')
         songname = '#1: "Answer" by BUMP OF CHICKEN (eps 1-11)'
-        self.assertEqual(song.get_apparition_eps(songname),
+        self.assertEqual(song.get_used_in_eps(songname),
                          "eps 1-11")
         songname = '"Uzu to Uzu" by NICO Touches the Walls (ep 2)'
-        self.assertEqual(song.get_apparition_eps(songname),
+        self.assertEqual(song.get_used_in_eps(songname),
                          "ep 2")
         songname = '#1: "Gunjou Survival" by Mikako Komatsu (eps 1-7, 9-12)'
-        self.assertEqual(song.get_apparition_eps(songname),
+        self.assertEqual(song.get_used_in_eps(songname),
                          "eps 1-7, 9-12")
 
 
