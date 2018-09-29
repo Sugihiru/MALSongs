@@ -65,15 +65,16 @@ def dump_to_csv(output_file, animes):
         output_file (str): Output file
         animes (list of Anime): Anime from which to get infos
     """
-    content = ["Checked,Song type,Song number,Anime title,Song"]
+    content = ["Checked,Song type,Song number,Anime title,"
+               "Song,Apparition episodes"]
     for anime_obj in animes:
         for song in anime_obj.songs:
             song_data = {'title': anime_obj.anime_name.replace(',', ';'),
                          'song_nb': song.number,
                          'song_type': song.type,
-                         'songname': song.title}
+                         'songname': song.title,
+                         'eps': song.apparition_eps or '-'}
             content.append("FALSE,{song_type},{song_nb},"
-                           "{title},{songname}".format(**song_data))
-
+                           "{title},{songname},{eps}".format(**song_data))
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write('\n'.join(content))

@@ -1,14 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import re
+
 
 class Anisong():
     """Holds infos about an anime song"""
+
+    # Lazy loaded in Anisong.get_re_apparition_eps()
+    re_apparition_eps = None
 
     def __init__(self, anisong_text, anisong_type):
         self._full_text = anisong_text
         self.type = self.get_anisong_type(anisong_type)
         self.number = self.get_song_number(anisong_text)
+        self.apparition_eps = self.get_apparition_eps(anisong_text)
         self.title = self.get_title(anisong_text)
 
     def get_anisong_type(self, anisong_type):
@@ -40,7 +46,7 @@ class Anisong():
             if song_nb.isdigit():
                 song_nb = song_nb.zfill(2)
             return song_nb
-        return 1
+        return '1'
 
     def get_title(self, anisong_text):
         """Get the song title without additional infos
@@ -52,10 +58,41 @@ class Anisong():
         Returns:
             str: Stripped and cleaned title of the anisong
         """
+
+        # Clean anisong number
         if ':' in anisong_text:
             title = anisong_text.split(':', 1)[1]
         else:
             title = anisong_text
+
         # Avoid CSV problems, maybe a better solution should be found later
         title = title.replace(',', ';')
         return title.strip()
+
+    def get_apparition_eps(self, anisong_text):
+        """Get the episodes where the anisong appeared
+
+        Args:
+            anisong_text (str): Anisong text (from MAL anime page)
+
+        Returns:
+            str: Episodes of apparition. Note that the returned value
+                doesn't have a specific format since MAL doesn't format it.
+                See the tests for concrete examples.
+        """
+        re_apparition_eps = self.get_re_apparition_eps()
+        match = re_apparition_eps.search(anisong_text)
+        if match:
+            # Avoid CSV problems
+            # maybe a better solution should be found later
+            return match.group(0).strip('()').replace(',', ';')
+        return None
+
+    def get_re_apparition_eps(self):
+        """Checks if Anisong.re_apparition_eps is initialized.
+        If not, initialize it, then return it
+        """
+        if not Anisong.re_apparition_eps:
+            Anisong.re_apparition_eps = re.compile(
+                r"\([^\(\)]*eps* \d+(-\d+)*.*\)")
+        return Anisong.re_apparition_eps
