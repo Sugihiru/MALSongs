@@ -58,23 +58,23 @@ class Anime():
         return "Anime <{0}, {1}>".format(self.mal_id, self.anime_name)
 
 
-def dump_to_csv(output_file, animes):
-    """Dump the informations of animes into an exportable CSV file
+def dump_to_tsv(output_file, animes):
+    """Dump the informations of animes into an exportable TSV file
 
     Args:
         output_file (str): Output file
         animes (list of Anime): Anime from which to get infos
     """
-    content = ["Checked,Song type,Song number,Anime title,"
-               "Song,Apparition episodes"]
+    content = ["Checked\tSong type\tSong number\tAnime title\t"
+               "Song\tApparition episodes"]
     for anime_obj in animes:
         for song in anime_obj.songs:
-            song_data = {'title': anime_obj.anime_name.replace(',', ';'),
+            song_data = {'title': anime_obj.anime_name,
                          'song_nb': song.number,
                          'song_type': song.type,
                          'songname': song.title,
                          'eps': song.apparition_eps or '-'}
-            content.append("FALSE,{song_type},{song_nb},"
-                           "{title},{songname},{eps}".format(**song_data))
+            content.append("FALSE\t{song_type}\t{song_nb}\t"
+                           "{title}\t{songname}\t{eps}".format(**song_data))
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write('\n'.join(content))

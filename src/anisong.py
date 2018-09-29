@@ -65,8 +65,6 @@ class Anisong():
         else:
             title = anisong_text
 
-        # Avoid CSV problems, maybe a better solution should be found later
-        title = title.replace(',', ';')
         return title.strip()
 
     def get_apparition_eps(self, anisong_text):
@@ -83,9 +81,7 @@ class Anisong():
         re_apparition_eps = self.get_re_apparition_eps()
         match = re_apparition_eps.search(anisong_text)
         if match:
-            # Avoid CSV problems
-            # maybe a better solution should be found later
-            return match.group(0).strip('()').replace(',', ';')
+            return match.group(0).strip('()')
         return None
 
     def get_re_apparition_eps(self):
