@@ -65,6 +65,10 @@ class Anisong():
         else:
             title = anisong_text
 
+        # Clean episode of apparition of anisong
+        if self.apparition_eps:
+            title = title.replace('({})'.format(self.apparition_eps), '')
+
         return title.strip()
 
     def get_apparition_eps(self, anisong_text):
