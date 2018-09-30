@@ -65,7 +65,7 @@ def dump_to_tsv(output_file, animes):
         output_file (str): Output file
         animes (list of Anime): Anime from which to get infos
     """
-    content = ["Checked\tSong type\tSong number\tAnime title\t"
+    content = ["Checked\tAnime title\tSong type\tSong number\t"
                "Song\tUsed in"]
     for anime_obj in animes:
         for song in anime_obj.songs:
@@ -74,7 +74,7 @@ def dump_to_tsv(output_file, animes):
                          'song_type': song.type,
                          'songname': song.title,
                          'eps': song.used_in_eps or '-'}
-            content.append("FALSE\t{song_type}\t{song_nb}\t"
-                           "{title}\t{songname}\t{eps}".format(**song_data))
+            content.append("FALSE\t{title}\t{song_type}\t{song_nb}"
+                           "\t{songname}\t{eps}".format(**song_data))
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write('\n'.join(content))
