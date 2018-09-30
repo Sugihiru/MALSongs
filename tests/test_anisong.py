@@ -67,6 +67,48 @@ class TestAnisong(unittest.TestCase):
         self.assertEqual(song.get_used_in_eps(songname),
                          "eps 1-7, 9-12")
 
+    def test_get_artist(self):
+        song = AnisongEmptyInit('', '')
+        song.used_in_eps = 'eps 1-11'
+        songname = '#1: "Answer" by BUMP OF CHICKEN (eps 1-11)'
+        self.assertEqual(song.get_artist(songname),
+                         "BUMP OF CHICKEN")
+
+        song.used_in_eps = 'ep 2'
+        songname = '"Uzu to Uzu" by NICO Touches the Walls (ep 2)'
+        self.assertEqual(song.get_artist(songname),
+                         'NICO Touches the Walls')
+
+        songname = '#1: "Gunjou Survival" by Mikako Komatsu (eps 1-7, 9-12)'
+        song.used_in_eps = 'eps 1-7, 9-12'
+        self.assertEqual(song.get_artist(songname),
+                         'Mikako Komatsu')
+
+        # Ambiguous
+        songname = 'My Dearest by supercell; performed by Koeda'
+        self.assertEqual(song.get_artist(songname), None)
+
+        # Unknown
+        songname = 'DREAM SOLISTER (Wind Orchestra Ver.)'
+        self.assertEqual(song.get_artist(songname), None)
+
+    def test__clean_eps_number(self):
+        song = AnisongEmptyInit('', '')
+        song.used_in_eps = 'eps 1-11'
+        songname = '#1: "Answer" by BUMP OF CHICKEN (eps 1-11)'
+        self.assertEqual(song._clean_eps_number(songname),
+                         '#1: "Answer" by BUMP OF CHICKEN ')
+
+        song.used_in_eps = 'ep 2'
+        songname = '"Uzu to Uzu" by NICO Touches the Walls (ep 2)'
+        self.assertEqual(song._clean_eps_number(songname),
+                         '"Uzu to Uzu" by NICO Touches the Walls ')
+
+        songname = '#1: "Gunjou Survival" by Mikako Komatsu (eps 1-7, 9-12)'
+        song.used_in_eps = 'eps 1-7, 9-12'
+        self.assertEqual(song._clean_eps_number(songname),
+                         '#1: "Gunjou Survival" by Mikako Komatsu ')
+
 
 if __name__ == '__main__':
     unittest.main()
