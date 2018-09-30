@@ -22,7 +22,7 @@ You can also strike the results that are checked. To do so, select every data us
 - [ ] Maybe try to fix sorting on results like `"Bungako Shoujo" Movie`
 - [x] Try to get the number of the OP/ED
 - [x] Try to get the episodes in which the anisong was played
-- [ ] Try to get the singer/group who performed the song
+- [x] Try to get the singer/group who performed the song
 - [x] Remove non-started animes from default option and add an option to include the non-started animes
 - [ ] Remove potential duplicates (on OVAs for example)
 - [ ] Add an option to set songs library directory(/ies ?) and set "Checked" to True if the results are already in the songs library
