@@ -40,20 +40,27 @@ class TestAnisong(unittest.TestCase):
     def test_get_title(self):
         song = AnisongEmptyInit('', '')
         song.used_in_eps = 'eps 1-11'
+        song.artist = 'BUMP OF CHICKEN'
         songname = '#1: "Answer" by BUMP OF CHICKEN (eps 1-11)'
         self.assertEqual(song.get_title(songname),
-                         '"Answer" by BUMP OF CHICKEN')
+                         '"Answer"')
+
         song.used_in_eps = 'ep 2'
+        song.artist = 'NICO Touches the Walls'
         songname = '"Uzu to Uzu" by NICO Touches the Walls (ep 2)'
         self.assertEqual(song.get_title(songname),
-                         '"Uzu to Uzu" by NICO Touches the Walls')
+                         '"Uzu to Uzu"')
+
         songname = '#1: "Gunjou Survival" by Mikako Komatsu (eps 1-7, 9-12)'
         song.used_in_eps = 'eps 1-7, 9-12'
+        song.artist = 'Mikako Komatsu'
         self.assertEqual(song.get_title(songname),
-                         '"Gunjou Survival" by Mikako Komatsu')
+                         '"Gunjou Survival"')
+
         songname = '"Menimeni Manimani" by Nasuno Takamiya (CV: Kyoko Narumi)'
+        song.artist = 'Nasuno Takamiya (CV: Kyoko Narumi)'
         self.assertEqual(song.get_title(songname),
-                         songname)
+                         '"Menimeni Manimani"')
 
     def test_get_used_in_eps(self):
         song = AnisongEmptyInit('', '')

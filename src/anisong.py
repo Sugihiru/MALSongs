@@ -67,6 +67,11 @@ class Anisong():
             title = anisong_text
 
         title = self._clean_eps_number(title)
+
+        # Clean artist
+        if self.artist:
+            title = title.replace(" by " + self.artist, '')
+
         return title.strip()
 
     def get_used_in_eps(self, anisong_text):
