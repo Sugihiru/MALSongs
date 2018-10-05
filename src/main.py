@@ -34,7 +34,8 @@ def main(username=None):
         include_ptw=args.include_ptw,
         exclude_animes_from_file=args.update)
     print("Animes processed: {0}".format(len(user_animes)))
-    anime.dump_to_tsv('anisongs.tsv', user_animes)
+    anime.dump_to_tsv('anisongs.tsv', user_animes,
+                      args.update)
 
 
 if __name__ == '__main__':

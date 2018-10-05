@@ -58,15 +58,32 @@ class Anime():
         return "Anime <{0}, {1}>".format(self.mal_id, self.anime_name)
 
 
-def dump_to_tsv(output_file, animes):
+def dump_to_tsv(output_file, animes, file_to_update=None):
     """Dump the informations of animes into an exportable TSV file
 
     Args:
         output_file (str): Output file
         animes (list of Anime): Anime from which to get infos
+        file_to_update (str): File processed by a previous
+            instance of this program. If set, this function will add
+            the content of file_to_update at the beginning of
+            output_file without its headers
     """
     content = ["Checked\tAnime title\tSong type\tSong number\t"
                "Song\tArtist/Group\tUsed in"]
+
+    # Add the content of file_to_update to content if the header is valid
+    if file_to_update:
+        with open(file_to_update) as f:
+            file_content = f.readlines()
+        if file_content[0].strip() != content[0]:
+            print("WARNING: Headers from the file to update are different"
+                  " from the actual one."
+                  " Program won't add the content of the file to update.")
+        else:
+            file_content = [x.strip() for x in file_content]
+            content += file_content[1:]
+
     for anime_obj in animes:
         for song in anime_obj.songs:
             song_data = {'title': anime_obj.anime_name,
