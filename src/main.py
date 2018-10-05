@@ -18,6 +18,9 @@ def parse_args():
     parser.add_argument("--include-ptw",
                         action="store_true",
                         help="Include Plan To Watch animes")
+    parser.add_argument("--update",
+                        help="Update the .tsv passed as argument"
+                        " instead of creating a new one")
     args = parser.parse_args()
 
     return args
@@ -27,7 +30,9 @@ def main(username=None):
     args = parse_args()
     user_animelist = animelist.AnimeList(args.xml)
     print("Getting animes from MAL anime list...")
-    user_animes = user_animelist.get_list_of_animes(args.include_ptw)
+    user_animes = user_animelist.get_list_of_animes(
+        include_ptw=args.include_ptw,
+        exclude_animes_from_file=args.update)
     print("Animes processed: {0}".format(len(user_animes)))
     anime.dump_to_tsv('anisongs.tsv', user_animes)
 

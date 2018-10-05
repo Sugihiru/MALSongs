@@ -48,6 +48,33 @@ class TestAnimeList(unittest.TestCase):
         self.assertEqual(anime_list_obj.parser.anime_data[0]['anime_title'],
                          TITLE_PTW)
 
+    def test_exclude_animes_by_titles(self):
+        TITLE_KEEP1 = 'Title keep'
+        TITLE_KEEP2 = 'Title keep2'
+        TITLE_EXCLUDE1 = 'Title exclude'
+        TITLE_EXCLUDE2 = 'Title exclude2'
+        ANIMES_TITLE = [TITLE_KEEP1, TITLE_KEEP2,
+                        TITLE_EXCLUDE1, TITLE_EXCLUDE2]
+
+        anime_list_obj = AnimeList(TEST_XML_FILE)
+        for anime_title in ANIMES_TITLE:
+            anime_list_obj.parser.anime_data.append(
+                {'anime_title': anime_title}
+            )
+
+        self.assertEqual(len(anime_list_obj.parser.anime_data), 4)
+
+        to_exclude = [TITLE_EXCLUDE1, TITLE_EXCLUDE2]
+        anime_list_obj.exclude_animes_by_titles(to_exclude)
+        self.assertEqual(len(anime_list_obj.parser.anime_data), 2)
+
+        anime_titles = [x['anime_title'] for x in
+                        anime_list_obj.parser.anime_data]
+        self.assertIn(TITLE_KEEP1, anime_titles)
+        self.assertIn(TITLE_KEEP2, anime_titles)
+        self.assertNotIn(TITLE_EXCLUDE1, anime_titles)
+        self.assertNotIn(TITLE_EXCLUDE2, anime_titles)
+
 
 if __name__ == '__main__':
     unittest.main()

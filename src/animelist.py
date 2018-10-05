@@ -24,13 +24,21 @@ class AnimeList():
         with open(xml_animelist, 'r') as f:
             self.content = f.read()
 
-    def get_list_of_animes(self, include_ptw=False):
+    def get_list_of_animes(self, include_ptw=False,
+                           exclude_animes_from_file=None):
         """Returns a list of Anime
         extracted from the content of the animelist"""
         animes = list()
         self.parser.feed(self.content)
         if not include_ptw:
             self.exclude_animes_by_status(MalStatusNamespace.ptw)
+
+        if exclude_animes_from_file:
+            animes_to_exclude = set()
+            with open(exclude_animes_from_file, 'r') as f:
+                for line in f:
+                    animes_to_exclude.add(line.split('\t')[1])
+            self.exclude_animes_by_titles(animes_to_exclude)
 
         for data in self.parser.anime_data:
             print(data['anime_title'].encode('utf-8'))
@@ -43,6 +51,14 @@ class AnimeList():
         """
         self.parser.anime_data = list(
             filter(lambda x: x['anime_status'] != excluded_status,
+                   self.parser.anime_data))
+
+    def exclude_animes_by_titles(self, animes_title_to_exclude):
+        """Exclude animes from self.parser.anime_data that are in
+        animes_title_to_exclude
+        """
+        self.parser.anime_data = list(
+            filter(lambda x: x['anime_title'] not in animes_title_to_exclude,
                    self.parser.anime_data))
 
 
