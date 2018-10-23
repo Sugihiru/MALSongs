@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import re
+import os
 
 
 class Anisong():
@@ -10,13 +11,49 @@ class Anisong():
     # Lazy loaded in Anisong.get_re_apparition_eps()
     re_used_in_eps = None
 
-    def __init__(self, anisong_text, anisong_type):
-        self._full_text = anisong_text
-        self.type = self.get_anisong_type(anisong_type)
-        self.number = self.get_song_number(anisong_text)
-        self.used_in_eps = self.get_used_in_eps(anisong_text)
-        self.artist = self.get_artist(anisong_text)
-        self.title = self.get_title(anisong_text)
+    def __init__(self):
+        self.type = None
+        self.number = None
+        self.used_in_eps = None
+        self.artist = None
+        self.title = None
+
+    def __repr__(self):
+        """Example : "'God Knows' by 'Aya Hirano'". """
+        return "'{songname}' by '{artist}'".format(songname=self.title,
+                                                   artist=self.artist)
+
+    def __eq__(self, other):
+        """Returns True if the song has the same title
+        and is sung by the same artist
+        """
+        return self.artist == other.artist and self.title == other.title
+
+    @classmethod
+    def from_mal(cls, anisong_text, anisong_type):
+        """Creates an Anisong from MAL informations"""
+        obj = cls()
+        obj._mal_full_text = anisong_text
+        obj.type = obj.get_anisong_type(anisong_type)
+        obj.number = obj.get_song_number(anisong_text)
+        obj.used_in_eps = obj.get_used_in_eps(anisong_text)
+        obj.artist = obj.get_artist(anisong_text)
+        obj.title = obj.get_title(anisong_text)
+        return obj
+
+    @classmethod
+    def from_file_name(cls, filepath):
+        """Creates an Anisong from a file name
+        By default, it assumes the format '%artist% - %songname%'
+        """
+        sep = ' - '
+        obj = cls()
+        filepath = os.path.basename(filepath)
+        if sep in filepath:
+            split_filepath = filepath.split(sep)
+            obj.artist = split_filepath[0]
+            obj.title = os.path.splitext(split_filepath[1])[0]
+        return obj
 
     def get_anisong_type(self, anisong_type):
         """Get the shortened type of the anisong.

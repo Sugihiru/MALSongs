@@ -8,24 +8,44 @@ from anisong import Anisong
 TEST_XML_FILE = os.path.dirname(__file__) + '/samples/animelist.xml'
 
 
-class AnisongEmptyInit(Anisong):
-    """A class inheriting from anisong but with an empty init
-    Used for tests cases only"""
-
-    def __init__(self, anisong_text, anisong_type):
-        pass
-
-
 class TestAnisong(unittest.TestCase):
+    def test_repr(self):
+        song = Anisong()
+        song.artist = "Aya Hirano"
+        song.title = "God Knows"
+        self.assertEqual(song.__repr__(), "'God Knows' by 'Aya Hirano'")
+
+    def test_eq(self):
+        song = Anisong()
+        song.artist = "Aya Hirano"
+        song.title = "God Knows"
+        song2 = Anisong()
+        song2.artist = "Aya Hirano"
+        song2.title = "God Knows"
+        self.assertEqual(song, song2)
+        song2.artist = "Haruhi Suzumiya"
+        self.assertNotEqual(song, song2)
+
+    def test_from_file_name(self):
+        filename = "Aya Hirano - God Knows"
+        song = Anisong.from_file_name(filename)
+        self.assertEqual(song.title, "God Knows")
+        self.assertEqual(song.artist, "Aya Hirano")
+
+        filename = "/some/path/YUKI - Flag wo Tateru"
+        song = Anisong.from_file_name(filename)
+        self.assertEqual(song.title, "Flag wo Tateru")
+        self.assertEqual(song.artist, "YUKI")
+
     def test_get_anisong_type(self):
-        song = AnisongEmptyInit('', '')
+        song = Anisong()
         self.assertEqual(song.get_anisong_type('opnening'),
                          'OP')
         self.assertEqual(song.get_anisong_type('ending'),
                          'ED')
 
     def test_get_song_number(self):
-        song = AnisongEmptyInit('', '')
+        song = Anisong()
         songname = '#1: "Answer" by BUMP OF CHICKEN (eps 1-11)'
         self.assertEqual(song.get_song_number(songname), "01")
         songname = '#2: "Sayonara Bystander" by YUKI (eps 12-22)'
@@ -38,7 +58,7 @@ class TestAnisong(unittest.TestCase):
         self.assertEqual(song.get_song_number(songname), "R1")
 
     def test_get_title(self):
-        song = AnisongEmptyInit('', '')
+        song = Anisong()
         song.used_in_eps = 'eps 1-11'
         song.artist = 'BUMP OF CHICKEN'
         songname = '#1: "Answer" by BUMP OF CHICKEN (eps 1-11)'
@@ -63,7 +83,7 @@ class TestAnisong(unittest.TestCase):
                          '"Menimeni Manimani"')
 
     def test_get_used_in_eps(self):
-        song = AnisongEmptyInit('', '')
+        song = Anisong()
         songname = '#1: "Answer" by BUMP OF CHICKEN (eps 1-11)'
         self.assertEqual(song.get_used_in_eps(songname),
                          "eps 1-11")
@@ -75,7 +95,7 @@ class TestAnisong(unittest.TestCase):
                          "eps 1-7, 9-12")
 
     def test_get_artist(self):
-        song = AnisongEmptyInit('', '')
+        song = Anisong()
         song.used_in_eps = 'eps 1-11'
         songname = '#1: "Answer" by BUMP OF CHICKEN (eps 1-11)'
         self.assertEqual(song.get_artist(songname),
@@ -100,7 +120,7 @@ class TestAnisong(unittest.TestCase):
         self.assertEqual(song.get_artist(songname), None)
 
     def test__clean_eps_number(self):
-        song = AnisongEmptyInit('', '')
+        song = Anisong()
         song.used_in_eps = 'eps 1-11'
         songname = '#1: "Answer" by BUMP OF CHICKEN (eps 1-11)'
         self.assertEqual(song._clean_eps_number(songname),

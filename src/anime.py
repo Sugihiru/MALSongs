@@ -50,7 +50,7 @@ class Anime():
                                               self.anime_name.encode('utf-8')))
             else:
                 for song_html in songs_html.find_all('span'):
-                    song = Anisong(song_html.text, song_class)
+                    song = Anisong.from_mal(song_html.text, song_class)
                     self.songs.append(song)
 
     def __repr__(self):
@@ -58,7 +58,8 @@ class Anime():
         return "Anime <{0}, {1}>".format(self.mal_id, self.anime_name)
 
 
-def dump_to_tsv(output_file, animes, file_to_update=None):
+def dump_to_tsv(output_file, animes, file_to_update=None,
+                songs_from_library=None):
     """Dump the informations of animes into an exportable TSV file
 
     Args:
@@ -92,7 +93,10 @@ def dump_to_tsv(output_file, animes, file_to_update=None):
                          'songname': song.title,
                          'eps': song.used_in_eps or '-',
                          'artist': song.artist or '?'}
-            content.append("FALSE\t{title}\t{song_type}\t{song_nb}"
-                           "\t{songname}\t{artist}\t{eps}".format(**song_data))
+            entry = ("FALSE\t{title}\t{song_type}\t{song_nb}"
+                     "\t{songname}\t{artist}\t{eps}".format(**song_data))
+            if song in songs_from_library:
+                entry = entry.replace('FALSE', 'TRUE', 1)
+            content.append(entry)
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write('\n'.join(content))
