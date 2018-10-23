@@ -84,6 +84,12 @@ def dump_to_tsv(output_file, animes, file_to_update=None,
         else:
             file_content = [x.strip() for x in file_content]
             content += file_content[1:]
+            if songs_from_library:
+                for i, tsv_entry in enumerate(content[1:]):
+                    song_from_tsv = Anisong.from_tsv_entry(tsv_entry)
+                    if song_from_tsv in songs_from_library:
+                        tsv_entry = tsv_entry.replace('FALSE', 'TRUE', 1)
+                        content[i + 1] = tsv_entry
 
     for anime_obj in animes:
         for song in anime_obj.songs:
