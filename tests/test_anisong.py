@@ -37,6 +37,16 @@ class TestAnisong(unittest.TestCase):
         self.assertEqual(song.title, "Flag wo Tateru")
         self.assertEqual(song.artist, "YUKI")
 
+    def test_from_tsv_entry(self):
+        tsv_entry = ('FALSE\tSuzumiya Haruhi no Yuuutsu (2009)\tOP\t'
+                     '1\t"Super Driver"\tAya Hirano\t-')
+        song = Anisong.from_tsv_entry(tsv_entry)
+        self.assertEqual(song.type, "OP")
+        self.assertEqual(song.number, "1")
+        self.assertEqual(song.title, "Super Driver")
+        self.assertEqual(song.artist, "Aya Hirano")
+        self.assertEqual(song.used_in_eps, None)
+
     def test_get_anisong_type(self):
         song = Anisong()
         self.assertEqual(song.get_anisong_type('opnening'),
