@@ -27,7 +27,8 @@ class Anisong():
         """Returns True if the song has the same title
         and is sung by the same artist
         """
-        return self.artist == other.artist and self.title == other.title
+        return (self.artist.lower() == other.artist.lower() and
+                self.title.lower() == other.title.lower())
 
     @classmethod
     def from_mal(cls, anisong_text, anisong_type):

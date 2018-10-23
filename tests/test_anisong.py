@@ -26,6 +26,10 @@ class TestAnisong(unittest.TestCase):
         song2.artist = "Haruhi Suzumiya"
         self.assertNotEqual(song, song2)
 
+        song2.artist = "Aya Hirano".lower()
+        song2.title = "God Knows".lower()
+        self.assertEqual(song, song2)
+
     def test_from_file_name(self):
         filename = "Aya Hirano - God Knows"
         song = Anisong.from_file_name(filename)
