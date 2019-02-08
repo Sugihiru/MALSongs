@@ -17,6 +17,7 @@ class Anisong():
         self.used_in_eps = None
         self.artist = None
         self.title = None
+        self.anime = None
 
     def __repr__(self):
         """Example : "'God Knows' by 'Aya Hirano'". """

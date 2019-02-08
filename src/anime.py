@@ -20,7 +20,7 @@ class Anime():
         self.anime_name = anime_name
         self.mal_id = mal_id
         self.url = anime_page
-        self.get_infos_from_anime_page()
+        self.get_anisongs_from_anime_page()
 
     @classmethod
     def from_dict(cls, data_dict):
@@ -30,7 +30,7 @@ class Anime():
                         data_dict['anime_url'])
         return anime_obj
 
-    def get_infos_from_anime_page(self):
+    def get_anisongs_from_anime_page(self):
         """Get additional informations like openings and endings list
             from the anime's MAL page"""
         self.songs = list()
@@ -51,6 +51,7 @@ class Anime():
             else:
                 for song_html in songs_html.find_all('span'):
                     song = Anisong.from_mal(song_html.text, song_class)
+                    song.anime = self
                     self.songs.append(song)
 
     def __repr__(self):

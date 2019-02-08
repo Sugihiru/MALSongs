@@ -42,6 +42,11 @@ def main(username=None):
         include_ptw=args.include_ptw,
         exclude_animes_from_file=args.update)
     print("Animes processed: {0}".format(len(user_animes)))
+
+    anisongs = list()
+    for user_anime in user_animes:
+        anisongs += user_anime.songs
+
     anime.dump_to_tsv('anisongs.tsv', user_animes,
                       args.update,
                       songs_from_library=songs_from_library)
