@@ -76,7 +76,7 @@ def dump_to_tsv(output_file, animes, file_to_update=None,
 
     # Add the content of file_to_update to content if the header is valid
     if file_to_update:
-        with open(file_to_update) as f:
+        with open(file_to_update, encoding='utf-8') as f:
             file_content = f.readlines()
         if file_content[0].strip() != content[0]:
             print("WARNING: Headers from the file to update are different"

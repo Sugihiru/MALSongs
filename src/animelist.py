@@ -35,7 +35,8 @@ class AnimeList():
 
         if exclude_animes_from_file:
             animes_to_exclude = set()
-            with open(exclude_animes_from_file, 'r') as f:
+            with open(exclude_animes_from_file, 'r',
+                      encoding='utf-8') as f:
                 for line in f:
                     animes_to_exclude.add(line.split('\t')[1])
             self.exclude_animes_by_titles(animes_to_exclude)
