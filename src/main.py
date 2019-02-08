@@ -1,11 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import sys
 import argparse
+
+from PySide2 import QtWidgets
 
 import animelist
 import anime
 import song_library
+from ui import main_window
 
 
 def parse_args():
@@ -47,9 +51,16 @@ def main(username=None):
     for user_anime in user_animes:
         anisongs += user_anime.songs
 
-    anime.dump_to_tsv('anisongs.tsv', user_animes,
-                      args.update,
-                      songs_from_library=songs_from_library)
+    app = QtWidgets.QApplication(sys.argv)
+    mw = QtWidgets.QMainWindow()
+    main_widget = main_window.MainWindow()
+    main_widget.setupUi(mw, anisongs)
+    mw.show()
+    sys.exit(app.exec_())
+
+    # anime.dump_to_tsv('anisongs.tsv', user_animes,
+    #                   args.update,
+    #                   songs_from_library=songs_from_library)
 
 
 if __name__ == '__main__':
