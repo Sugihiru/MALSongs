@@ -23,6 +23,7 @@ class TestAnimeList(unittest.TestCase):
         }
 
         anime_list_obj = AnimeList(TEST_XML_FILE)
+        anime_list_obj.parser.anime_data = list()
         anime_list_obj.parser.anime_data.append(TEST_ANIME_DICT)
 
         TEST_ANIME_DICT = dict(TEST_ANIME_DICT)
@@ -57,6 +58,7 @@ class TestAnimeList(unittest.TestCase):
                         TITLE_EXCLUDE1, TITLE_EXCLUDE2]
 
         anime_list_obj = AnimeList(TEST_XML_FILE)
+        anime_list_obj.parser.anime_data = list()
         for anime_title in ANIMES_TITLE:
             anime_list_obj.parser.anime_data.append(
                 {'anime_title': anime_title}
