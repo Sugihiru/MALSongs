@@ -1,9 +1,12 @@
+from threading import Thread
+
 from PySide2 import QtWidgets, QtGui
 from PySide2.QtCore import Slot
 
 from ui.ui_main_window import Ui_MainWindow
 from ui.import_dialog import ImportDialog
 
+from anime import Anime
 from animelist import AnimeList
 
 
@@ -41,13 +44,31 @@ class MainWindow(Ui_MainWindow):
     def onImportDone(self, mal_xml):
         self.user_animelist = AnimeList(mal_xml, include_ptw=False,
                                         exclude_animes_from_file=False)
-        self.user_animes = self.user_animelist.get_list_of_animes()
+        self.import_dialog.display_progress_bar(
+            min_value=0,
+            max_value=self.user_animelist.get_nb_animes())
+
+        th = Thread(target=self.fetch_and_display_anisongs)
+        th.start()
+
+    def fetch_and_display_anisongs(self):
+        self.user_animes = list()
+        for data in self.user_animelist.anime_data:
+            self.import_dialog.anisong_loading_widget.infoReceived.emit(
+                str(data['anime_title']))
+            self.user_animes.append(Anime.from_dict(data))
+            self.import_dialog.anisong_loading_widget.progressed.emit()
+
+            # User clicked on Cancel while loading anisongs
+            if not self.import_dialog.anisong_loading_widget.isVisible():
+                break
 
         anisongs = list()
         for user_anime in self.user_animes:
             anisongs += user_anime.songs
 
         self.display_anisongs_in_table(anisongs)
+        self.import_dialog.anisong_loading_widget.close()
         self.import_dialog.close()
 
 

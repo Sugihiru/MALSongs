@@ -27,6 +27,9 @@ class AnimeList():
         self.anime_data = self.get_anime_data(include_ptw,
                                               exclude_animes_from_file)
 
+    def get_nb_animes(self):
+        return len(self.anime_data)
+
     def get_anime_data(self, include_ptw, exclude_animes_from_file):
         """Get basic data concerning the animes in the animelist
 
