@@ -70,21 +70,3 @@ class MainWindow(Ui_MainWindow):
         self.display_anisongs_in_table(anisongs)
         self.import_dialog.anisong_loading_widget.close()
         self.import_dialog.close()
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    mw = QtWidgets.QMainWindow()
-    ui = MainWindow()
-    ui.setupUi(mw)
-
-    row = 0
-    column = 0
-    ui.tableWidget.setRowCount(10)
-    newItem = QtWidgets.QTableWidgetItem("aaaaaaaaaaaaaaaaaaaaaaaaaaa")
-    newItem.setBackground(QtGui.QBrush(QtGui.QColor(100, 100, 100)))
-    ui.tableWidget.setItem(row, column, newItem)
-
-    mw.show()
-    sys.exit(app.exec_())

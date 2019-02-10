@@ -37,14 +37,3 @@ class ImportDialog(QObject, Ui_ImportDialog):
         if not filename:
             self.close()
         self.finished.emit(filename)
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    dialog_widget = QtWidgets.QDialog()
-    ui = ImportDialog()
-    ui.setupUi(dialog_widget)
-    dialog_widget.show()
-    sys.exit(app.exec_())
-

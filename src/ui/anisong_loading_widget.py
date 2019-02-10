@@ -1,4 +1,3 @@
-from PySide2 import QtWidgets
 from PySide2.QtCore import QObject, Signal, Slot
 
 from ui.ui_loading_widget import Ui_LoadingWidget
@@ -31,14 +30,3 @@ class AnisongLoadingWidget(QObject, Ui_LoadingWidget):
         print(new_text)
         self.infoLabel.setText("{0}<br>{1}".format(self.DEFAULT_INFO_TEXT,
                                                    new_text))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    base_widget = QtWidgets.QWidget()
-    ui = AnisongLoadingWidget()
-    ui.setupUi(base_widget)
-    base_widget.show()
-    sys.exit(app.exec_())
-
