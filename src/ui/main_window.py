@@ -1,12 +1,20 @@
 from PySide2 import QtWidgets, QtGui
 
 from ui.ui_main_window import Ui_MainWindow
+from ui.import_dialog import ImportDialog
 
 
 class MainWindow(Ui_MainWindow):
+    def __init__(self):
+        self.dialog_widget = QtWidgets.QDialog()
+        self.import_dialog = ImportDialog()
+        self.import_dialog.setupUi(self.dialog_widget)
+
     def setupUi(self, main_win, anisongs):
         super(MainWindow, self).setupUi(main_win)
         self.actionExit.triggered.connect(main_win.close)
+        self.actionImport.triggered.connect(self.onImportClick)
+
         self.tableWidget.setRowCount(len(anisongs))
         for i, anisong in enumerate(anisongs):
             anime_item = QtWidgets.QTableWidgetItem(anisong.anime.anime_name)
@@ -23,6 +31,9 @@ class MainWindow(Ui_MainWindow):
                 QtWidgets.QTableWidgetItem(anisong.used_in_eps)
             self.tableWidget.setItem(i, 5, used_in_item)
         self.tableWidget.resizeColumnsToContents()
+
+    def onImportClick(self):
+        self.dialog_widget.show()
 
 
 if __name__ == "__main__":
