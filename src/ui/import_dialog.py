@@ -1,9 +1,13 @@
 from PySide2 import QtWidgets
+from PySide2.QtCore import Signal, QObject
 
 from ui.ui_import_dialog import Ui_ImportDialog
 
 
-class ImportDialog(Ui_ImportDialog):
+# Inherits from QObject to use Signal()
+class ImportDialog(QObject, Ui_ImportDialog):
+    finished = Signal(str)
+
     def setupUi(self, dialog_widget):
         super(ImportDialog, self).setupUi(dialog_widget)
         self.browsePushButton.clicked.connect(self.onBrowseClick)
@@ -20,7 +24,7 @@ class ImportDialog(Ui_ImportDialog):
         filename = self.fromXmlLineEdit.text()
         if not filename:
             self.close()
-        print(filename)
+        self.finished.emit(filename)
 
 
 if __name__ == "__main__":
