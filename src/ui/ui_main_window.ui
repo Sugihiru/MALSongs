@@ -16,46 +16,160 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QTableWidget" name="tableWidget">
-      <property name="alternatingRowColors">
-       <bool>true</bool>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
       </property>
-      <property name="showGrid">
-       <bool>false</bool>
-      </property>
-      <property name="sortingEnabled">
-       <bool>true</bool>
-      </property>
-      <column>
-       <property name="text">
-        <string>Anime</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Type</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Number</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Song</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Artist</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Used in</string>
-       </property>
-      </column>
+      <widget class="QWidget" name="newTab">
+       <attribute name="title">
+        <string>New</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QTableWidget" name="newTableWidget">
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+          <property name="showGrid">
+           <bool>false</bool>
+          </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
+          <column>
+           <property name="text">
+            <string>Anime</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Type</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Number</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Song</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Artist</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Used in</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="ownedTab">
+       <attribute name="title">
+        <string>Owned</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QTableWidget" name="ownedTableWidget">
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+          <property name="showGrid">
+           <bool>false</bool>
+          </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
+          <column>
+           <property name="text">
+            <string>Anime</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Type</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Number</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Song</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Artist</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Used in</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="ignoredTab">
+       <attribute name="title">
+        <string>Ignored</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QTableWidget" name="ignoredTableWidget">
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+          <property name="showGrid">
+           <bool>false</bool>
+          </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
+          <column>
+           <property name="text">
+            <string>Anime</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Type</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Number</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Song</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Artist</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Used in</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
