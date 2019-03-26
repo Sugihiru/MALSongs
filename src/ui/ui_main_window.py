@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\src\ui\ui_main_window.ui',
-# licensing of '.\src\ui\ui_main_window.ui' applies.
+# Form implementation generated from reading ui file '.\ui\ui_main_window.ui',
+# licensing of '.\ui\ui_main_window.ui' applies.
 #
-# Created: Wed Feb 13 14:37:31 2019
+# Created: Tue Mar 26 17:23:37 2019
 #      by: pyside2-uic  running on PySide2 5.12.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -25,7 +25,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.newTab)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.newTableWidget = QtWidgets.QTableWidget(self.newTab)
+        self.newTableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.newTableWidget.setAlternatingRowColors(True)
+        self.newTableWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.newTableWidget.setShowGrid(False)
         self.newTableWidget.setObjectName("newTableWidget")
         self.newTableWidget.setColumnCount(6)
@@ -49,7 +51,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.ownedTab)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.ownedTableWidget = QtWidgets.QTableWidget(self.ownedTab)
+        self.ownedTableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.ownedTableWidget.setAlternatingRowColors(True)
+        self.ownedTableWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.ownedTableWidget.setShowGrid(False)
         self.ownedTableWidget.setObjectName("ownedTableWidget")
         self.ownedTableWidget.setColumnCount(6)
@@ -73,7 +77,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.ignoredTab)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
         self.ignoredTableWidget = QtWidgets.QTableWidget(self.ignoredTab)
+        self.ignoredTableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.ignoredTableWidget.setAlternatingRowColors(True)
+        self.ignoredTableWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.ignoredTableWidget.setShowGrid(False)
         self.ignoredTableWidget.setObjectName("ignoredTableWidget")
         self.ignoredTableWidget.setColumnCount(6)
@@ -106,6 +112,7 @@ class Ui_MainWindow(object):
         self.actionExit = QtWidgets.QAction(MainWindow)
         self.actionExit.setObjectName("actionExit")
         self.actionImport = QtWidgets.QAction(MainWindow)
+        self.actionImport.setShortcutVisibleInContextMenu(True)
         self.actionImport.setObjectName("actionImport")
         self.menuFile.addAction(self.actionImport)
         self.menuFile.addAction(self.actionExit)
@@ -144,4 +151,5 @@ class Ui_MainWindow(object):
         self.menuFile.setTitle(QtWidgets.QApplication.translate("MainWindow", "File", None, -1))
         self.actionExit.setText(QtWidgets.QApplication.translate("MainWindow", "Exit", None, -1))
         self.actionImport.setText(QtWidgets.QApplication.translate("MainWindow", "Import", None, -1))
+        self.actionImport.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+O", None, -1))
 
