@@ -1,4 +1,4 @@
-from PySide2.QtCore import QObject, Signal, Slot
+from PySide2.QtCore import QObject, Signal, Slot, Qt
 
 from ui.ui_loading_widget import Ui_LoadingWidget
 
@@ -16,6 +16,7 @@ class AnisongLoadingWidget(QObject, Ui_LoadingWidget):
         self.progressed.connect(self.increment_progress_bar)
         self.infoReceived.connect(self.update_info_text)
         self.infoLabel.setText(self.DEFAULT_INFO_TEXT)
+        base_widget.setWindowModality(Qt.ApplicationModal)
 
     def init_progress_bar(self, min_value=0, max_value=0):
         self.progressBar.setMinimum(min_value)
