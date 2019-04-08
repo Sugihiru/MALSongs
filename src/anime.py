@@ -6,7 +6,7 @@ import time
 from bs4 import BeautifulSoup
 
 import html_utils
-from anisong import Anisong
+import anisong
 
 
 MAL_BASE_URL = "https://myanimelist.net"
@@ -16,11 +16,14 @@ class Anime():
     """Holds anime informations
     """
 
-    def __init__(self, anime_name, mal_id, anime_page):
+    def __init__(self, anime_name, mal_id=None, anime_url=None):
         self.anime_name = anime_name
         self.mal_id = mal_id
-        self.url = anime_page
-        self.get_anisongs_from_anime_page()
+        self.url = anime_url
+        if self.url:
+            self.get_anisongs_from_anime_page()
+        else:
+            self.songs = None
 
     @classmethod
     def from_dict(cls, data_dict):
@@ -50,7 +53,8 @@ class Anime():
                                               self.anime_name.encode('utf-8')))
             else:
                 for song_html in songs_html.find_all('span'):
-                    song = Anisong.from_mal(song_html.text, song_class)
+                    song = anisong.Anisong.from_mal(song_html.text,
+                                                    song_class)
                     song.anime = self
                     self.songs.append(song)
 
@@ -87,7 +91,7 @@ def dump_to_tsv(output_file, animes, file_to_update=None,
             content += file_content[1:]
             if songs_from_library:
                 for i, tsv_entry in enumerate(content[1:]):
-                    song_from_tsv = Anisong.from_tsv_entry(tsv_entry)
+                    song_from_tsv = anisong.Anisong.from_tsv_entry(tsv_entry)
                     if song_from_tsv in songs_from_library:
                         tsv_entry = tsv_entry.replace('FALSE', 'TRUE', 1)
                         content[i + 1] = tsv_entry

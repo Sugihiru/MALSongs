@@ -4,6 +4,8 @@
 import re
 import os
 
+import anime
+
 
 class Anisong():
     """Holds infos about an anime song"""
@@ -18,6 +20,7 @@ class Anisong():
         self.artist = None
         self.title = None
         self.anime = None
+        self.database_obj = None
 
     def __repr__(self):
         """Example : "'God Knows' by 'Aya Hirano'". """
@@ -55,6 +58,19 @@ class Anisong():
             split_filepath = filepath.split(sep)
             obj.artist = split_filepath[0]
             obj.title = os.path.splitext(split_filepath[1])[0]
+        return obj
+
+    @classmethod
+    def from_database_query(cls, result):
+        """Creates an Anisong from db query result"""
+        obj = cls()
+        obj.anime = anime.Anime(result.anime)
+        obj.type = result.type
+        obj.number = str(result.number)
+        obj.title = result.title
+        obj.artist = result.artist
+        obj.used_in_eps = result.used_in_eps
+        obj.database_obj = result
         return obj
 
     @classmethod

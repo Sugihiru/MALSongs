@@ -8,6 +8,7 @@ from ui.import_dialog import ImportDialog
 
 from anime import Anime
 from animelist import AnimeList
+import database_manager as db
 
 
 class MainWindow(Ui_MainWindow):
@@ -98,6 +99,11 @@ class MainWindow(Ui_MainWindow):
         self.display_anisongs_in_table(anisongs)
         self.import_dialog.anisong_loading_widget.close()
         self.import_dialog.close()
+
+    def load_songs_from_database(self):
+        db.create_table()  # Create the table if it doesn't exist
+        anisongs = db.get_all_anisongs()
+        self.display_anisongs_in_table(anisongs)
 
     def showMenu(self, pos):
         tables_menus = [(self.newTableWidget, self.newContextMenu),
