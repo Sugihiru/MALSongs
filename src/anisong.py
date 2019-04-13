@@ -7,6 +7,12 @@ import os
 import anime
 
 
+class AnisongStatusNamespace():
+    new = 0
+    owned = 1
+    ignored = 2
+
+
 class Anisong():
     """Holds infos about an anime song"""
 
@@ -20,6 +26,7 @@ class Anisong():
         self.artist = None
         self.title = None
         self.anime = None
+        self.status = None
         self.database_obj = None
 
     def __repr__(self):
@@ -44,6 +51,7 @@ class Anisong():
         obj.used_in_eps = obj.get_used_in_eps(anisong_text)
         obj.artist = obj.get_artist(anisong_text)
         obj.title = obj.get_title(anisong_text)
+        obj.status = AnisongStatusNamespace.new
         return obj
 
     @classmethod
@@ -70,6 +78,7 @@ class Anisong():
         obj.title = result.title
         obj.artist = result.artist
         obj.used_in_eps = result.used_in_eps
+        obj.status = result.status
         obj.database_obj = result
         return obj
 

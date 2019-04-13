@@ -57,7 +57,9 @@ def main(username=None):
     main_widget.setupUi(mw)
     main_widget.load_songs_from_database()
     mw.show()
-    sys.exit(app.exec_())
+    return_value = app.exec_()
+    main_widget.saveToDatabase()
+    sys.exit(return_value)
 
     # anime.dump_to_tsv('anisongs.tsv', user_animes,
     #                   args.update,

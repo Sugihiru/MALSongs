@@ -45,3 +45,8 @@ def generate_db_objects_for_anisongs(anisongs):
                                   artist=song.artist,
                                   used_in_eps=song.used_in_eps,
                                   status=0)
+        session.add(song.database_obj)
+
+
+def commit():
+    session.commit()

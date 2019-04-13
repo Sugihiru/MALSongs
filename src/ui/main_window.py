@@ -51,9 +51,9 @@ class MainWindow(Ui_MainWindow):
         self.ignoredTableWidget.customContextMenuRequested.connect(
             self.showMenu)
 
-    def display_anisongs_in_table(self, anisongs):
-        self.newTableWidget.setRowCount(len(anisongs))
-        for i, anisong in enumerate(anisongs):
+    def display_anisongs_in_table(self):
+        self.newTableWidget.setRowCount(len(self.anisongs))
+        for i, anisong in enumerate(self.anisongs):
             anime_item = QtWidgets.QTableWidgetItem(anisong.anime.anime_name)
             self.newTableWidget.setItem(i, 0, anime_item)
             type_item = QtWidgets.QTableWidgetItem(anisong.type)
@@ -92,18 +92,17 @@ class MainWindow(Ui_MainWindow):
             if not self.import_dialog.anisong_loading_widget.isVisible():
                 break
 
-        anisongs = list()
         for user_anime in self.user_animes:
-            anisongs += user_anime.songs
+            self.anisongs += user_anime.songs
 
-        self.display_anisongs_in_table(anisongs)
+        self.display_anisongs_in_table()
         self.import_dialog.anisong_loading_widget.close()
         self.import_dialog.close()
 
     def load_songs_from_database(self):
         db.create_table()  # Create the table if it doesn't exist
-        anisongs = db.get_all_anisongs()
-        self.display_anisongs_in_table(anisongs)
+        self.anisongs = db.get_all_anisongs()
+        self.display_anisongs_in_table()
 
     def showMenu(self, pos):
         tables_menus = [(self.newTableWidget, self.newContextMenu),
@@ -142,6 +141,11 @@ class MainWindow(Ui_MainWindow):
         rows_to_delete.sort(reverse=True)
         for row_to_delete in rows_to_delete:
             source_table.removeRow(row_to_delete)
+
+    def saveToDatabase(self):
+        """Save anisongs to database"""
+        db.generate_db_objects_for_anisongs(self.anisongs)
+        db.commit()
 
     def moveFromNewToOwned(self):
         self.moveSelectedItemsFromTable(self.newTableWidget,
