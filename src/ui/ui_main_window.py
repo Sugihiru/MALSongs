@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file '.\ui_main_window.ui',
 # licensing of '.\ui_main_window.ui' applies.
 #
-# Created: Sun Apr 14 15:08:13 2019
+# Created: Sun Apr 14 19:48:11 2019
 #      by: pyside2-uic  running on PySide2 5.12.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -28,6 +28,8 @@ class Ui_MainWindow(object):
         self.newTableView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.newTableView.setAlternatingRowColors(True)
         self.newTableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.newTableView.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
+        self.newTableView.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
         self.newTableView.setShowGrid(False)
         self.newTableView.setSortingEnabled(True)
         self.newTableView.setObjectName("newTableView")
@@ -42,6 +44,8 @@ class Ui_MainWindow(object):
         self.ownedTableView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.ownedTableView.setAlternatingRowColors(True)
         self.ownedTableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.ownedTableView.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
+        self.ownedTableView.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
         self.ownedTableView.setShowGrid(False)
         self.ownedTableView.setSortingEnabled(True)
         self.ownedTableView.setObjectName("ownedTableView")
@@ -56,6 +60,8 @@ class Ui_MainWindow(object):
         self.ignoredTableView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.ignoredTableView.setAlternatingRowColors(True)
         self.ignoredTableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.ignoredTableView.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
+        self.ignoredTableView.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
         self.ignoredTableView.setShowGrid(False)
         self.ignoredTableView.setSortingEnabled(True)
         self.ignoredTableView.setObjectName("ignoredTableView")
