@@ -123,7 +123,7 @@ class MainWindow(Ui_MainWindow):
 
     def saveToDatabase(self):
         """Save anisongs to database"""
-        db.generate_db_objects_for_anisongs(self.model.anisongs)
+        db.generate_and_update_db_objects_for_anisongs(self.model.anisongs)
         db.commit()
 
     def resizeColumns(self, topleft=None, bottomright=None):

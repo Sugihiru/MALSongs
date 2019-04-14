@@ -36,16 +36,20 @@ def get_all_anisongs():
     return anisongs
 
 
-def generate_db_objects_for_anisongs(anisongs):
-    for song in filter(lambda x: not x.database_obj, anisongs):
-        song.database_obj = Songs(anime=song.anime.anime_name,
-                                  type=song.type,
-                                  number=song.number,
-                                  title=song.title,
-                                  artist=song.artist,
-                                  used_in_eps=song.used_in_eps,
-                                  status=0)
-        session.add(song.database_obj)
+def generate_and_update_db_objects_for_anisongs(anisongs):
+    # for song in filter(lambda x: not x.database_obj, anisongs):
+    for song in anisongs:
+        if not song.database_obj:
+            song.database_obj = Songs(anime=song.anime.anime_name,
+                                      type=song.type,
+                                      number=song.number,
+                                      title=song.title,
+                                      artist=song.artist,
+                                      used_in_eps=song.used_in_eps,
+                                      status=0)
+            session.add(song.database_obj)
+        else:
+            song.database_obj.status = song.status
 
 
 def commit():
