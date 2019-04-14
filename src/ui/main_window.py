@@ -8,7 +8,9 @@ from ui.import_dialog import ImportDialog
 
 from anime import Anime
 from animelist import AnimeList
+from anisong import AnisongStatusNamespace
 import database_manager as db
+from anisong_table_model import AnisongTableModel, ProxyAnisongTableModel
 
 
 class MainWindow(Ui_MainWindow):
@@ -17,6 +19,17 @@ class MainWindow(Ui_MainWindow):
         self.import_dialog = ImportDialog()
         self.import_dialog.finished.connect(self.onImportDone)
         self.import_dialog.setupUi(self.dialog_widget)
+
+        self.model = AnisongTableModel()
+        self.model.dataChanged.connect(self.resizeColumns)
+        self.newProxyModel = ProxyAnisongTableModel(AnisongStatusNamespace.new)
+        self.newProxyModel.setSourceModel(self.model)
+        self.ownedProxyModel = ProxyAnisongTableModel(
+            AnisongStatusNamespace.owned)
+        self.ownedProxyModel.setSourceModel(self.model)
+        self.ignoredProxyModel = ProxyAnisongTableModel(
+            AnisongStatusNamespace.ignored)
+        self.ignoredProxyModel.setSourceModel(self.model)
 
     def setupUi(self, main_win):
         super(MainWindow, self).setupUi(main_win)
@@ -29,8 +42,9 @@ class MainWindow(Ui_MainWindow):
                                       self.moveFromNewToOwned)
         self.newContextMenu.addAction('Move to "Ignored"',
                                       self.moveFromNewToIgnored)
-        self.newTableWidget.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.newTableWidget.customContextMenuRequested.connect(self.showMenu)
+        self.newTableView.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.newTableView.customContextMenuRequested.connect(self.showMenu)
+        self.newTableView.setModel(self.newProxyModel)
 
         # Context menu
         self.ownedContextMenu = QtWidgets.QMenu()
@@ -38,8 +52,9 @@ class MainWindow(Ui_MainWindow):
                                         self.moveFromOwnedToNew)
         self.ownedContextMenu.addAction('Move to "Ignored"',
                                         self.moveFromOwnedToIgnored)
-        self.ownedTableWidget.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.ownedTableWidget.customContextMenuRequested.connect(self.showMenu)
+        self.ownedTableView.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.ownedTableView.customContextMenuRequested.connect(self.showMenu)
+        self.ownedTableView.setModel(self.ownedProxyModel)
 
         # Context menu
         self.ignoredContextMenu = QtWidgets.QMenu()
@@ -47,126 +62,107 @@ class MainWindow(Ui_MainWindow):
                                           self.moveFromIgnoredToNew)
         self.ignoredContextMenu.addAction('Move to "Owned"',
                                           self.moveFromIgnoredToOwned)
-        self.ignoredTableWidget.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.ignoredTableWidget.customContextMenuRequested.connect(
+        self.ignoredTableView.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.ignoredTableView.customContextMenuRequested.connect(
             self.showMenu)
-
-    def display_anisongs_in_table(self):
-        self.newTableWidget.setRowCount(len(self.anisongs))
-        for i, anisong in enumerate(self.anisongs):
-            anime_item = QtWidgets.QTableWidgetItem(anisong.anime.anime_name)
-            self.newTableWidget.setItem(i, 0, anime_item)
-            type_item = QtWidgets.QTableWidgetItem(anisong.type)
-            self.newTableWidget.setItem(i, 1, type_item)
-            number_item = QtWidgets.QTableWidgetItem(anisong.number)
-            self.newTableWidget.setItem(i, 2, number_item)
-            title_item = QtWidgets.QTableWidgetItem(anisong.title)
-            self.newTableWidget.setItem(i, 3, title_item)
-            artist_item = QtWidgets.QTableWidgetItem(anisong.artist)
-            self.newTableWidget.setItem(i, 4, artist_item)
-            used_in_item = \
-                QtWidgets.QTableWidgetItem(anisong.used_in_eps)
-            self.newTableWidget.setItem(i, 5, used_in_item)
-        self.newTableWidget.resizeColumnsToContents()
+        self.ignoredTableView.setModel(self.ignoredProxyModel)
 
     @Slot(str)
     def onImportDone(self, mal_xml):
+        """Called when user has chosen the file he wants to import"""
         self.user_animelist = AnimeList(mal_xml, include_ptw=False,
                                         exclude_animes_from_file=False)
         self.import_dialog.display_progress_bar(
             min_value=0,
             max_value=self.user_animelist.get_nb_animes())
 
-        th = Thread(target=self.fetch_and_display_anisongs)
+        th = Thread(target=self.fetch_anisongs)
         th.start()
 
-    def fetch_and_display_anisongs(self):
-        self.user_animes = list()
+    def fetch_anisongs(self):
+        user_animes = list()
         for data in self.user_animelist.anime_data:
             self.import_dialog.anisong_loading_widget.infoReceived.emit(
                 str(data['anime_title']))
-            self.user_animes.append(Anime.from_dict(data))
+            user_animes.append(Anime.from_dict(data))
             self.import_dialog.anisong_loading_widget.progressed.emit()
 
             # User clicked on Cancel while loading anisongs
             if not self.import_dialog.anisong_loading_widget.isVisible():
                 break
 
-        for user_anime in self.user_animes:
-            self.anisongs += user_anime.songs
+        anisongs = list()
+        for user_anime in user_animes:
+            anisongs += user_anime.songs
+        self.model.insertRows(0, len(anisongs), anisongs)
 
-        self.display_anisongs_in_table()
         self.import_dialog.anisong_loading_widget.close()
         self.import_dialog.close()
 
-    def load_songs_from_database(self):
-        db.create_table()  # Create the table if it doesn't exist
-        self.anisongs = db.get_all_anisongs()
-        self.display_anisongs_in_table()
-
     def showMenu(self, pos):
-        tables_menus = [(self.newTableWidget, self.newContextMenu),
-                        (self.ownedTableWidget, self.ownedContextMenu),
-                        (self.ignoredTableWidget, self.ignoredContextMenu)]
+        tables_menus = [(self.newTableView, self.newContextMenu),
+                        (self.ownedTableView, self.ownedContextMenu),
+                        (self.ignoredTableView, self.ignoredContextMenu)]
         for table, context_menu in tables_menus:
-            selection_model = table.selectionModel()
-            if selection_model.hasSelection():
+            selected_indexes = table.selectedIndexes()
+            if len(selected_indexes):
                 context_menu.exec_(QtGui.QCursor.pos())
 
-    def moveSelectedItemsFromTable(self, source_table, dest_table):
-        selection_model = source_table.selectionModel()
-        nb_rows_selected = len(selection_model.selectedRows())
-        row_count = dest_table.rowCount() - 1
-        dest_table.setRowCount(dest_table.rowCount() + nb_rows_selected)
+    def changeStatusOfSelectedItemsOfTable(self, source_table, new_status):
+        selected_indexes = source_table.selectedIndexes()
 
-        rows_to_delete = list()
+        source_model = selected_indexes[0].model().sourceModel()
+        nb_columns = source_model.columnCount()
+        for i in range(0, len(selected_indexes) // nb_columns):
+            # Get the indexes of the whole row
+            indexes = selected_indexes[i * nb_columns:(i + 1) * nb_columns]
+            song = source_model.modelIndexToData(indexes)
+            song.status = new_status
 
-        dest_table.setSortingEnabled(False)
-        for item in source_table.selectedItems():
-            item_column = item.column()
-            item_row = item.row()
-            # Remove ownership of the widget
-            item = source_table.takeItem(item_row, item_column)
-
-            if item_row not in rows_to_delete:
-                rows_to_delete.append(item_row)
-                row_count += 1
-
-            dest_table.setItem(row_count, item_column, item)
-        dest_table.sortByColumn(0, Qt.AscendingOrder)
-        dest_table.setSortingEnabled(True)
-        dest_table.resizeColumnsToContents()
-
-        # Remove rows in decreasing order to avoid removing the wrong rows
-        rows_to_delete.sort(reverse=True)
-        for row_to_delete in rows_to_delete:
-            source_table.removeRow(row_to_delete)
+        self.invalidateAllModelFilters()
 
     def saveToDatabase(self):
         """Save anisongs to database"""
-        db.generate_db_objects_for_anisongs(self.anisongs)
+        db.generate_db_objects_for_anisongs(self.model.anisongs)
         db.commit()
 
+    def resizeColumns(self, topleft=None, bottomright=None):
+        """Resize the columns of every tableView
+        topleft and bottomright args are needed for Qt callback but are unused
+        """
+        for table in (self.newTableView,
+                      self.ownedTableView,
+                      self.ignoredTableView):
+            table.resizeColumnsToContents()
+
+    def invalidateAllModelFilters(self):
+        """Invalidate and relaunch validation for all models"""
+        for model in (self.newProxyModel,
+                      self.ownedProxyModel,
+                      self.ignoredProxyModel):
+            model.invalidateFilter()
+        self.resizeColumns()
+
     def moveFromNewToOwned(self):
-        self.moveSelectedItemsFromTable(self.newTableWidget,
-                                        self.ownedTableWidget)
+        self.changeStatusOfSelectedItemsOfTable(self.newTableView,
+                                                AnisongStatusNamespace.owned)
 
     def moveFromNewToIgnored(self):
-        self.moveSelectedItemsFromTable(self.newTableWidget,
-                                        self.ignoredTableWidget)
+        self.changeStatusOfSelectedItemsOfTable(self.newTableView,
+                                                AnisongStatusNamespace.ignored)
 
     def moveFromOwnedToNew(self):
-        self.moveSelectedItemsFromTable(self.ownedTableWidget,
-                                        self.newTableWidget)
+        self.changeStatusOfSelectedItemsOfTable(self.ownedTableView,
+                                                AnisongStatusNamespace.new)
 
     def moveFromOwnedToIgnored(self):
-        self.moveSelectedItemsFromTable(self.ownedTableWidget,
-                                        self.ignoredTableWidget)
+        self.changeStatusOfSelectedItemsOfTable(self.ownedTableView,
+                                                AnisongStatusNamespace.ignored)
 
     def moveFromIgnoredToNew(self):
-        self.moveSelectedItemsFromTable(self.ignoredTableWidget,
-                                        self.newTableWidget)
+        self.changeStatusOfSelectedItemsOfTable(self.ignoredTableView,
+                                                AnisongStatusNamespace.new)
 
     def moveFromIgnoredToOwned(self):
-        self.moveSelectedItemsFromTable(self.ignoredTableWidget,
-                                        self.ownedTableWidget)
+        self.changeStatusOfSelectedItemsOfTable(self.ignoredTableView,
+                                                AnisongStatusNamespace.owned)

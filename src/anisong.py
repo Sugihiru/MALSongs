@@ -19,15 +19,17 @@ class Anisong():
     # Lazy loaded in Anisong.get_re_apparition_eps()
     re_used_in_eps = None
 
-    def __init__(self):
-        self.type = None
-        self.number = None
-        self.used_in_eps = None
-        self.artist = None
-        self.title = None
-        self.anime = None
-        self.status = None
-        self.database_obj = None
+    def __init__(self, song_type=None, number=None, used_in_eps=None,
+                 artist=None, title=None, anime=None, status=None,
+                 database_obj=None):
+        self.type = song_type
+        self.number = number
+        self.used_in_eps = used_in_eps
+        self.artist = artist
+        self.title = title
+        self.anime = anime
+        self.status = status
+        self.database_obj = database_obj
 
     def __repr__(self):
         """Example : "'God Knows' by 'Aya Hirano'". """

@@ -26,7 +26,7 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QTableWidget" name="newTableWidget">
+         <widget class="QTableView" name="newTableView">
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
@@ -42,36 +42,9 @@
           <property name="sortingEnabled">
            <bool>true</bool>
           </property>
-          <column>
-           <property name="text">
-            <string>Anime</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Type</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Number</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Song</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Artist</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Used in</string>
-           </property>
-          </column>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
          </widget>
         </item>
        </layout>
@@ -82,7 +55,7 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QTableWidget" name="ownedTableWidget">
+         <widget class="QTableView" name="ownedTableView">
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
@@ -98,36 +71,9 @@
           <property name="sortingEnabled">
            <bool>true</bool>
           </property>
-          <column>
-           <property name="text">
-            <string>Anime</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Type</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Number</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Song</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Artist</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Used in</string>
-           </property>
-          </column>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
          </widget>
         </item>
        </layout>
@@ -138,7 +84,7 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
-         <widget class="QTableWidget" name="ignoredTableWidget">
+         <widget class="QTableView" name="ignoredTableView">
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
@@ -154,36 +100,9 @@
           <property name="sortingEnabled">
            <bool>true</bool>
           </property>
-          <column>
-           <property name="text">
-            <string>Anime</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Type</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Number</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Song</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Artist</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Used in</string>
-           </property>
-          </column>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
          </widget>
         </item>
        </layout>

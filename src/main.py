@@ -55,7 +55,8 @@ def main(username=None):
     mw = QtWidgets.QMainWindow()
     main_widget = main_window.MainWindow()
     main_widget.setupUi(mw)
-    main_widget.load_songs_from_database()
+    main_widget.model.load_from_database()
+
     mw.show()
     return_value = app.exec_()
     main_widget.saveToDatabase()
