@@ -51,13 +51,18 @@ class AnisongTableModel(QtCore.QAbstractTableModel):
         if role == Qt.DisplayRole and orientation == Qt.Horizontal:
             return self.headers[section]
 
-    def insertRows(self, row, count, new_items, parent=QtCore.QModelIndex()):
+    def insertRows(self, new_items):
+        new_items = list(filter(lambda x: x not in self.anisongs, new_items))
+        # No new songs to insert
+        if not len(new_items):
+            return False
         self.beginInsertRows(QtCore.QModelIndex(),
-                             row,
-                             row + count)
+                             len(self.anisongs),
+                             len(self.anisongs) + len(new_items))
         self.anisongs += new_items
         self.endInsertRows()
         self.dataChanged.emit(QtCore.QModelIndex(), QtCore.QModelIndex())
+        return True
 
     def modelIndexToData(self, index_list):
         """Returns the data corresponding to the indexes

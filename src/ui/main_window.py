@@ -94,7 +94,7 @@ class MainWindow(Ui_MainWindow):
         anisongs = list()
         for user_anime in user_animes:
             anisongs += user_anime.songs
-        self.model.insertRows(0, len(anisongs), anisongs)
+        self.model.insertRows(anisongs)
 
         self.import_dialog.anisong_loading_widget.close()
         self.import_dialog.close()

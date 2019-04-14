@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-import anisong
+from anisong import Anisong, AnisongStatusNamespace
 
 
 Base = declarative_base()
@@ -32,7 +32,7 @@ def get_all_anisongs():
     """Get all anisongs in database"""
     anisongs = list()
     for result in session.query(Songs).order_by(Songs.anime):
-        anisongs.append(anisong.Anisong.from_database_query(result))
+        anisongs.append(Anisong.from_database_query(result))
     return anisongs
 
 
@@ -46,7 +46,7 @@ def generate_and_update_db_objects_for_anisongs(anisongs):
                                       title=song.title,
                                       artist=song.artist,
                                       used_in_eps=song.used_in_eps,
-                                      status=0)
+                                      status=AnisongStatusNamespace.new)
             session.add(song.database_obj)
         else:
             song.database_obj.status = song.status
