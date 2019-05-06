@@ -55,7 +55,7 @@ def main(username=None):
     mw = QtWidgets.QMainWindow()
     main_widget = main_window.MainWindow()
     main_widget.setupUi(mw)
-    main_widget.model.load_from_database()
+    main_widget.model.loadFromDatabase()
 
     mw.show()
     return_value = app.exec_()

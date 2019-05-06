@@ -13,7 +13,7 @@ class AnisongTableModel(QtCore.QAbstractTableModel):
             self.anisongs = list()
         self.headers = ["Anime", "Type", "Number", "Song", "Artist", "Used in"]
 
-    def load_from_database(self):
+    def loadFromDatabase(self):
         db.create_table()  # Create the table if it doesn't exist
         self.anisongs = db.get_all_anisongs()
 

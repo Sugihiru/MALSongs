@@ -21,7 +21,7 @@ class ImportDialog(QObject, Ui_ImportDialog):
         self.importPushButton.clicked.connect(self.onImportClick)
         self.close = dialog_widget.close
 
-    def display_progress_bar(self, min_value=0, max_value=0):
+    def displayProgressBar(self, min_value=0, max_value=0):
         self.anisong_loading_widget.init_progress_bar(min_value=min_value,
                                                       max_value=max_value)
         self.base_loading_widget.show()

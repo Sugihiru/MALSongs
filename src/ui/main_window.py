@@ -76,14 +76,14 @@ class MainWindow(Ui_MainWindow):
         self.user_animelist = AnimeList(mal_xml, include_ptw=False,
                                         exclude_animes_from_file=False,
                                         excluded_animes=excluded_animes)
-        self.import_dialog.display_progress_bar(
+        self.import_dialog.displayProgressBar(
             min_value=0,
             max_value=self.user_animelist.get_nb_animes())
 
-        th = Thread(target=self.fetch_anisongs)
+        th = Thread(target=self.fetchAnisongs)
         th.start()
 
-    def fetch_anisongs(self):
+    def fetchAnisongs(self):
         user_animes = list()
         for data in self.user_animelist.anime_data:
             self.import_dialog.anisong_loading_widget.infoReceived.emit(
