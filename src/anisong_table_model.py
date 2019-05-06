@@ -78,6 +78,12 @@ class AnisongTableModel(QtCore.QAbstractTableModel):
                                   None)
         return corresponding_data
 
+    def getAllAnimes(self):
+        """Returns all unique anime names in self.anisongs or None"""
+        if not self.anisongs:
+            return None
+        return list(set([x.anime.anime_name for x in self.anisongs]))
+
 
 class ProxyAnisongTableModel(QtCore.QSortFilterProxyModel):
     def __init__(self, accepted_status):

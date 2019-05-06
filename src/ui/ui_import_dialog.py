@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\src\ui\ui_import_dialog.ui',
-# licensing of '.\src\ui\ui_import_dialog.ui' applies.
+# Form implementation generated from reading ui file '.\ui_import_dialog.ui',
+# licensing of '.\ui_import_dialog.ui' applies.
 #
-# Created: Sun Feb 10 17:10:45 2019
+# Created: Mon May  6 18:00:08 2019
 #      by: pyside2-uic  running on PySide2 5.12.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -39,6 +39,9 @@ class Ui_ImportDialog(object):
         self.browsePushButton.setObjectName("browsePushButton")
         self.horizontalLayout.addWidget(self.browsePushButton)
         self.verticalLayout_3.addLayout(self.horizontalLayout)
+        self.reimportCheckBox = QtWidgets.QCheckBox(self.malTab)
+        self.reimportCheckBox.setObjectName("reimportCheckBox")
+        self.verticalLayout_3.addWidget(self.reimportCheckBox)
         self.importPushButton = QtWidgets.QPushButton(self.malTab)
         self.importPushButton.setObjectName("importPushButton")
         self.verticalLayout_3.addWidget(self.importPushButton)
@@ -63,6 +66,7 @@ class Ui_ImportDialog(object):
         self.instructionsLabel.setText(QtWidgets.QApplication.translate("ImportDialog", "<html><head/><body><p><a href=\"https://myanimelist.net/panel.php?go=export\"><span style=\" text-decoration: underline; color:#0000ff;\">Export your MyAnimeList\'s list</span></a>, then extract the XML from the .gzip file.</p></body></html>", None, -1))
         self.fromXmlLabel.setText(QtWidgets.QApplication.translate("ImportDialog", "Exported XML", None, -1))
         self.browsePushButton.setText(QtWidgets.QApplication.translate("ImportDialog", "Browse", None, -1))
+        self.reimportCheckBox.setText(QtWidgets.QApplication.translate("ImportDialog", "Re-import animes that are already on the list", None, -1))
         self.importPushButton.setText(QtWidgets.QApplication.translate("ImportDialog", "Import", None, -1))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.malTab), QtWidgets.QApplication.translate("ImportDialog", "MyAnimeList", None, -1))
         self.label.setText(QtWidgets.QApplication.translate("ImportDialog", "Soon™ !", None, -1))

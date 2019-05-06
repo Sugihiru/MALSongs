@@ -59,6 +59,13 @@
         </layout>
        </item>
        <item>
+        <widget class="QCheckBox" name="reimportCheckBox">
+         <property name="text">
+          <string>Re-import animes that are already on the list</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="importPushButton">
          <property name="text">
           <string>Import</string>

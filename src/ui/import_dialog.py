@@ -37,3 +37,6 @@ class ImportDialog(QObject, Ui_ImportDialog):
         if not filename:
             self.close()
         self.finished.emit(filename)
+
+    def isReimportChecked(self):
+        return self.reimportCheckBox.isChecked()

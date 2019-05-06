@@ -70,8 +70,12 @@ class MainWindow(Ui_MainWindow):
     @Slot(str)
     def onImportDone(self, mal_xml):
         """Called when user has chosen the file he wants to import"""
+        excluded_animes = None
+        if not self.import_dialog.isReimportChecked():
+            excluded_animes = self.model.getAllAnimes()
         self.user_animelist = AnimeList(mal_xml, include_ptw=False,
-                                        exclude_animes_from_file=False)
+                                        exclude_animes_from_file=False,
+                                        excluded_animes=excluded_animes)
         self.import_dialog.display_progress_bar(
             min_value=0,
             max_value=self.user_animelist.get_nb_animes())

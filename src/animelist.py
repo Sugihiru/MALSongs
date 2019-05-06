@@ -20,17 +20,20 @@ class AnimeList():
     """
 
     def __init__(self, xml_animelist, include_ptw=False,
-                 exclude_animes_from_file=None):
+                 exclude_animes_from_file=None,
+                 excluded_animes=None):
         self.parser = AnimeListXmlParser()
         with open(xml_animelist, 'r') as f:
             self.content = f.read()
         self.anime_data = self.get_anime_data(include_ptw,
-                                              exclude_animes_from_file)
+                                              exclude_animes_from_file,
+                                              excluded_animes)
 
     def get_nb_animes(self):
         return len(self.anime_data)
 
-    def get_anime_data(self, include_ptw, exclude_animes_from_file):
+    def get_anime_data(self, include_ptw, exclude_animes_from_file,
+                       excluded_animes):
         """Get basic data concerning the animes in the animelist
 
         Returns a dict containing anime_title, anime_id,
@@ -39,6 +42,8 @@ class AnimeList():
         self.parser.feed(self.content)
         if not include_ptw:
             self.exclude_animes_by_status(MalStatusNamespace.ptw)
+        if excluded_animes:
+            self.exclude_animes_by_titles(excluded_animes)
 
         if exclude_animes_from_file:
             animes_to_exclude = set()
