@@ -6,9 +6,6 @@ import argparse
 
 from PySide2 import QtWidgets
 
-# import animelist
-# import anime
-# import song_library
 from ui import main_window
 
 
@@ -37,20 +34,6 @@ def parse_args():
 
 
 def main(username=None):
-    # args = parse_args()
-    # songs_from_library = \
-    #     song_library.get_all_songs_from_library(args.song_library)
-
-    # user_animelist = animelist.AnimeList(args.xml,
-    #                                      include_ptw=args.include_ptw,
-    #                                      exclude_animes_from_file=args.update)
-    # print("Animes to process: {0}".format(len(user_animelist.anime_data)))
-    # user_animes = user_animelist.get_list_of_animes()
-
-    # anisongs = list()
-    # for user_anime in user_animes:
-    #     anisongs += user_anime.songs
-
     app = QtWidgets.QApplication(sys.argv)
     mw = QtWidgets.QMainWindow()
     main_widget = main_window.MainWindow()
@@ -61,10 +44,6 @@ def main(username=None):
     return_value = app.exec_()
     main_widget.saveToDatabase()
     sys.exit(return_value)
-
-    # anime.dump_to_tsv('anisongs.tsv', user_animes,
-    #                   args.update,
-    #                   songs_from_library=songs_from_library)
 
 
 if __name__ == '__main__':
