@@ -93,5 +93,12 @@ class ProxyAnisongTableModel(QtCore.QSortFilterProxyModel):
     def filterAcceptsRow(self, sourceRow, sourceParent):
         if sourceRow >= self.sourceModel().rowCount():
             return False
-        return (self.sourceModel().anisongs[sourceRow].status ==
-                self.accepted_status)
+        song = self.sourceModel().anisongs[sourceRow]
+        if (song.status != self.accepted_status):
+            return False
+
+        # return True
+        return (self.filterRegExp().isEmpty() or
+                self.filterRegExp().exactMatch(song.title) or
+                self.filterRegExp().exactMatch(song.anime.anime_name) or
+                self.filterRegExp().exactMatch(song.artist))

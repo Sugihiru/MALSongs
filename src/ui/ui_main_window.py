@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file '.\ui_main_window.ui',
 # licensing of '.\ui_main_window.ui' applies.
 #
-# Created: Sun Apr 14 19:48:11 2019
+# Created: Mon May 20 15:31:34 2019
 #      by: pyside2-uic  running on PySide2 5.12.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -18,6 +18,13 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName("verticalLayout")
+        self.searchLayout = QtWidgets.QHBoxLayout()
+        self.searchLayout.setSizeConstraint(QtWidgets.QLayout.SetFixedSize)
+        self.searchLayout.setObjectName("searchLayout")
+        self.searchLineEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.searchLineEdit.setObjectName("searchLineEdit")
+        self.searchLayout.addWidget(self.searchLineEdit)
+        self.verticalLayout.addLayout(self.searchLayout)
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
         self.tabWidget.setObjectName("tabWidget")
         self.newTab = QtWidgets.QWidget()

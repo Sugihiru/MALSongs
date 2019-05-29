@@ -1,7 +1,7 @@
 from threading import Thread
 
 from PySide2 import QtWidgets, QtGui
-from PySide2.QtCore import Slot, Qt
+from PySide2.QtCore import Slot, Qt, QRegExp
 
 from ui.ui_main_window import Ui_MainWindow
 from ui.import_dialog import ImportDialog
@@ -35,6 +35,7 @@ class MainWindow(Ui_MainWindow):
         super(MainWindow, self).setupUi(main_win)
         self.actionExit.triggered.connect(main_win.close)
         self.actionImport.triggered.connect(self.dialog_widget.show)
+        self.searchLineEdit.textChanged.connect(self.onSearchFieldChanged)
 
         # Context menu
         self.newContextMenu = QtWidgets.QMenu()
@@ -82,6 +83,17 @@ class MainWindow(Ui_MainWindow):
 
         th = Thread(target=self.fetchAnisongs)
         th.start()
+
+    def onSearchFieldChanged(self):
+        """Set the regex for each model"""
+
+        # Add ".*" to enable partial matching
+        regex = QRegExp(".*" + self.searchLineEdit.text() + ".*",
+                        Qt.CaseInsensitive)
+        for model in (self.newProxyModel,
+                      self.ownedProxyModel,
+                      self.ignoredProxyModel):
+            model.setFilterRegExp(regex)
 
     def fetchAnisongs(self):
         user_animes = list()
