@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file '.\ui_main_window.ui',
 # licensing of '.\ui_main_window.ui' applies.
 #
-# Created: Mon May 20 15:31:34 2019
+# Created: Wed May 29 18:19:54 2019
 #      by: pyside2-uic  running on PySide2 5.12.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -21,6 +21,19 @@ class Ui_MainWindow(object):
         self.searchLayout = QtWidgets.QHBoxLayout()
         self.searchLayout.setSizeConstraint(QtWidgets.QLayout.SetFixedSize)
         self.searchLayout.setObjectName("searchLayout")
+        self.searchComboBox = QtWidgets.QComboBox(self.centralwidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.searchComboBox.sizePolicy().hasHeightForWidth())
+        self.searchComboBox.setSizePolicy(sizePolicy)
+        self.searchComboBox.setMinimumSize(QtCore.QSize(0, 0))
+        self.searchComboBox.setObjectName("searchComboBox")
+        self.searchComboBox.addItem("")
+        self.searchComboBox.addItem("")
+        self.searchComboBox.addItem("")
+        self.searchComboBox.addItem("")
+        self.searchLayout.addWidget(self.searchComboBox)
         self.searchLineEdit = QtWidgets.QLineEdit(self.centralwidget)
         self.searchLineEdit.setObjectName("searchLineEdit")
         self.searchLayout.addWidget(self.searchLineEdit)
@@ -101,6 +114,12 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "MainWindow", None, -1))
+        self.searchComboBox.setCurrentText(QtWidgets.QApplication.translate("MainWindow", "All", None, -1))
+        self.searchComboBox.setItemText(0, QtWidgets.QApplication.translate("MainWindow", "All", None, -1))
+        self.searchComboBox.setItemText(1, QtWidgets.QApplication.translate("MainWindow", "Anime title", None, -1))
+        self.searchComboBox.setItemText(2, QtWidgets.QApplication.translate("MainWindow", "Artist", None, -1))
+        self.searchComboBox.setItemText(3, QtWidgets.QApplication.translate("MainWindow", "Song title", None, -1))
+        self.searchLineEdit.setPlaceholderText(QtWidgets.QApplication.translate("MainWindow", "Search", None, -1))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.newTab), QtWidgets.QApplication.translate("MainWindow", "New", None, -1))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.ownedTab), QtWidgets.QApplication.translate("MainWindow", "Owned", None, -1))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.ignoredTab), QtWidgets.QApplication.translate("MainWindow", "Ignored", None, -1))

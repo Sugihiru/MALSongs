@@ -36,6 +36,8 @@ class MainWindow(Ui_MainWindow):
         self.actionExit.triggered.connect(main_win.close)
         self.actionImport.triggered.connect(self.dialog_widget.show)
         self.searchLineEdit.textChanged.connect(self.onSearchFieldChanged)
+        self.searchComboBox.currentIndexChanged.connect(
+            self.onSearchCategoryChanged)
 
         # Context menu
         self.newContextMenu = QtWidgets.QMenu()
@@ -94,6 +96,13 @@ class MainWindow(Ui_MainWindow):
                       self.ownedProxyModel,
                       self.ignoredProxyModel):
             model.setFilterRegExp(regex)
+
+    def onSearchCategoryChanged(self, new_index):
+        for model in (self.newProxyModel,
+                      self.ownedProxyModel,
+                      self.ignoredProxyModel):
+            model.search_category = new_index
+            model.invalidateFilter()
 
     def fetchAnisongs(self):
         user_animes = list()
