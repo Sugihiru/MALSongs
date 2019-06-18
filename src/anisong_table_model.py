@@ -93,6 +93,7 @@ class ProxyAnisongTableModel(QtCore.QSortFilterProxyModel):
         super().__init__()
         self.accepted_status = accepted_status
         self.search_category = 0
+        self.season_order = ("Winter", "Spring", "Summer", "Fall")
 
     def filterAcceptsRow(self, sourceRow, sourceParent):
         if sourceRow >= self.sourceModel().rowCount():
@@ -119,3 +120,23 @@ class ProxyAnisongTableModel(QtCore.QSortFilterProxyModel):
             3: song.title}
 
         return filter_regex.exactMatch(category_to_field[self.search_category])
+
+    def lessThan(self, source_left, source_right):
+        if source_left.column() != 6:
+            return super().lessThan(source_left, source_right)
+        left_data = self.sourceModel().data(source_left)
+        right_data = self.sourceModel().data(source_right)
+
+        if not left_data or not right_data:
+            return super().lessThan(source_left, source_right)
+
+        left_season, left_year = left_data.split(' ')
+        left_year = int(left_year)
+        right_season, right_year = right_data.split(' ')
+        right_year = int(right_year)
+
+        if left_year == right_year:
+            left_season_index = self.season_order.index(left_season)
+            right_season_index = self.season_order.index(right_season)
+            return left_season_index < right_season_index
+        return left_year < right_year
