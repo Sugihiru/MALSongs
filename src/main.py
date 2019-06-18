@@ -40,7 +40,7 @@ def main(username=None):
     main_widget.setupUi(mw)
     main_widget.model.loadFromDatabase()
 
-    mw.show()
+    mw.showMaximized()
     return_value = app.exec_()
     main_widget.saveToDatabase()
     sys.exit(return_value)
