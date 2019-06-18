@@ -95,6 +95,10 @@ class ProxyAnisongTableModel(QtCore.QSortFilterProxyModel):
         self.search_category = 0
         self.season_order = ("Winter", "Spring", "Summer", "Fall")
 
+    def setFilterRegExp(self, regex, use_regex):
+        self.use_regex = use_regex
+        super().setFilterRegExp(regex)
+
     def filterAcceptsRow(self, sourceRow, sourceParent):
         if sourceRow >= self.sourceModel().rowCount():
             return False
@@ -108,18 +112,27 @@ class ProxyAnisongTableModel(QtCore.QSortFilterProxyModel):
         """Check if the song matches the filter parameters"""
         if (filter_regex.isEmpty()):
             return True
+        regex_pattern = filter_regex.pattern().lower()
 
         if self.search_category == 0:
-            return (filter_regex.exactMatch(song.title) or
-                    filter_regex.exactMatch(song.anime.anime_name) or
-                    filter_regex.exactMatch(song.artist))
+            if self.use_regex:
+                return (filter_regex.exactMatch(song.title) or
+                        filter_regex.exactMatch(song.anime.anime_name) or
+                        filter_regex.exactMatch(song.artist))
+            else:
+                return (regex_pattern in song.title.lower() or
+                        regex_pattern in song.anime.anime_name.lower() or
+                        regex_pattern in song.artist.lower())
 
         category_to_field = {
             1: song.anime.anime_name,
             2: song.artist,
             3: song.title}
 
-        return filter_regex.exactMatch(category_to_field[self.search_category])
+        if self.use_regex:
+            return filter_regex.exactMatch(
+                category_to_field[self.search_category])
+        return regex_pattern in category_to_field[self.search_category].lower()
 
     def lessThan(self, source_left, source_right):
         if source_left.column() != 6:

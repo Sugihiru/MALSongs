@@ -66,6 +66,13 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QCheckBox" name="searchRegexCheckBox">
+        <property name="text">
+         <string>Use regex</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
     <item>

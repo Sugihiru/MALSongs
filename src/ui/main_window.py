@@ -38,6 +38,8 @@ class MainWindow(Ui_MainWindow):
         self.searchLineEdit.textChanged.connect(self.onSearchFieldChanged)
         self.searchComboBox.currentIndexChanged.connect(
             self.onSearchCategoryChanged)
+        self.searchRegexCheckBox.stateChanged.connect(
+            self.onSearchFieldChanged)
 
         # Context menu
         self.newContextMenu = QtWidgets.QMenu()
@@ -90,12 +92,17 @@ class MainWindow(Ui_MainWindow):
         """Set the regex for each model"""
 
         # Add ".*" to enable partial matching
-        regex = QRegExp(".*" + self.searchLineEdit.text() + ".*",
-                        Qt.CaseInsensitive)
+        if self.searchRegexCheckBox.isChecked():
+            regex = QRegExp(".*" + self.searchLineEdit.text() + ".*",
+                            Qt.CaseInsensitive)
+        else:
+            regex = QRegExp(self.searchLineEdit.text(),
+                            Qt.CaseInsensitive)
+
         for model in (self.newProxyModel,
                       self.ownedProxyModel,
                       self.ignoredProxyModel):
-            model.setFilterRegExp(regex)
+            model.setFilterRegExp(regex, self.searchRegexCheckBox.isChecked())
 
     def onSearchCategoryChanged(self, new_index):
         for model in (self.newProxyModel,

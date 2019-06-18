@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file '.\ui_main_window.ui',
 # licensing of '.\ui_main_window.ui' applies.
 #
-# Created: Wed May 29 18:19:54 2019
+# Created: Tue Jun 18 17:30:20 2019
 #      by: pyside2-uic  running on PySide2 5.12.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -37,6 +37,9 @@ class Ui_MainWindow(object):
         self.searchLineEdit = QtWidgets.QLineEdit(self.centralwidget)
         self.searchLineEdit.setObjectName("searchLineEdit")
         self.searchLayout.addWidget(self.searchLineEdit)
+        self.searchRegexCheckBox = QtWidgets.QCheckBox(self.centralwidget)
+        self.searchRegexCheckBox.setObjectName("searchRegexCheckBox")
+        self.searchLayout.addWidget(self.searchRegexCheckBox)
         self.verticalLayout.addLayout(self.searchLayout)
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
         self.tabWidget.setObjectName("tabWidget")
@@ -120,6 +123,7 @@ class Ui_MainWindow(object):
         self.searchComboBox.setItemText(2, QtWidgets.QApplication.translate("MainWindow", "Artist", None, -1))
         self.searchComboBox.setItemText(3, QtWidgets.QApplication.translate("MainWindow", "Song title", None, -1))
         self.searchLineEdit.setPlaceholderText(QtWidgets.QApplication.translate("MainWindow", "Search", None, -1))
+        self.searchRegexCheckBox.setText(QtWidgets.QApplication.translate("MainWindow", "Use regex", None, -1))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.newTab), QtWidgets.QApplication.translate("MainWindow", "New", None, -1))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.ownedTab), QtWidgets.QApplication.translate("MainWindow", "Owned", None, -1))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.ignoredTab), QtWidgets.QApplication.translate("MainWindow", "Ignored", None, -1))
