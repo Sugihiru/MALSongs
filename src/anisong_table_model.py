@@ -11,7 +11,8 @@ class AnisongTableModel(QtCore.QAbstractTableModel):
             self.anisongs = anisongs
         else:
             self.anisongs = list()
-        self.headers = ["Anime", "Type", "Number", "Song", "Artist", "Used in"]
+        self.headers = ["Anime", "Type", "Number", "Song", "Artist", "Used in",
+                        "Season"]
 
     def loadFromDatabase(self):
         db.create_table()  # Create the table if it doesn't exist
@@ -45,6 +46,8 @@ class AnisongTableModel(QtCore.QAbstractTableModel):
                 value = self.anisongs[row].artist
             elif column == 5:
                 value = self.anisongs[row].used_in_eps
+            elif column == 6:
+                value = self.anisongs[row].anime.season
             return value
 
     def headerData(self, section, orientation, role):

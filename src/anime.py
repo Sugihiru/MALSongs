@@ -16,12 +16,13 @@ class Anime():
     """Holds anime informations
     """
 
-    def __init__(self, anime_name, mal_id=None, anime_url=None):
+    def __init__(self, anime_name, mal_id=None, anime_url=None, season=None):
         self.anime_name = anime_name
         self.mal_id = mal_id
         self.url = anime_url
+        self.season = season
         if self.url:
-            self.get_anisongs_from_anime_page()
+            self.get_infos_from_anime_page()
         else:
             self.songs = None
 
@@ -33,9 +34,9 @@ class Anime():
                         data_dict['anime_url'])
         return anime_obj
 
-    def get_anisongs_from_anime_page(self):
-        """Get additional informations like openings and endings list
-            from the anime's MAL page"""
+    def get_infos_from_anime_page(self):
+        """Get additional informations like openings and endings list,
+        season informations, from the anime's MAL page"""
         self.songs = list()
         content = html_utils.get_content_from_url(MAL_BASE_URL + self.url)
         parsed_html = BeautifulSoup(content, "lxml")
@@ -44,6 +45,13 @@ class Anime():
             time.sleep(3)
             content = html_utils.get_content_from_url(MAL_BASE_URL + self.url)
             parsed_html = BeautifulSoup(content, "lxml")
+
+        season_html = parsed_html.body.find(
+            "span", attrs={"class": "information season"})
+        if not season_html:
+            self.season = None
+        else:
+            self.season = season_html.text
 
         for song_class in ['opnening', 'ending']:
             songs_html = parsed_html.body.find('div',

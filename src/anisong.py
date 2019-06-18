@@ -74,7 +74,7 @@ class Anisong():
     def from_database_query(cls, result):
         """Creates an Anisong from db query result"""
         obj = cls()
-        obj.anime = anime.Anime(result.anime)
+        obj.anime = anime.Anime(result.anime, season=result.season)
         obj.type = result.type
         obj.number = str(result.number)
         obj.title = result.title

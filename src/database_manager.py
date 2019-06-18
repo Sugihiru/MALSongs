@@ -20,6 +20,7 @@ class Songs(Base):
     title = Column(String)
     artist = Column(String)
     used_in_eps = Column(String)
+    season = Column(String)
     status = Column(Integer)
 
 
@@ -46,6 +47,7 @@ def generate_and_update_db_objects_for_anisongs(anisongs):
                                       title=song.title,
                                       artist=song.artist,
                                       used_in_eps=song.used_in_eps,
+                                      season=song.anime.season,
                                       status=AnisongStatusNamespace.new)
             session.add(song.database_obj)
         else:
